@@ -11,7 +11,7 @@ package summary
 // func connectClient() (summary.SummaryClient, error) {
 // 	gRPC := "localhost:8089"
 
-// 	if val, ok := os.LookupEnv("OBSERVABILITY_SERVICE"); ok {
+// 	if val, ok := os.LookupEnv("DATASAGE_SERVICE"); ok {
 // 		gRPC = val
 // 	}
 // 	var client summary.SummaryClient
