@@ -4,30 +4,30 @@ import (
 	"context"
 	"os"
 
-	ds "github.com/datasage-io/datasage-cli/proto/datasource"
+	pb "github.com/datasage-io/datasage-cli/proto/datasource"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 )
 
 //connectClient - To connect datasource Client
-func connectClient() (ds.DatasourceClient, error) {
+func connectClient() (pb.DatasourceClient, error) {
 	gRPC := "localhost:8089"
 
 	if val, ok := os.LookupEnv("DATASAGE_SERVICE"); ok {
 		gRPC = val
 	}
-	var client ds.DatasourceClient
+	var client pb.DatasourceClient
 	connection, err := grpc.Dial(gRPC, grpc.WithInsecure())
 	if err != nil {
 		log.Error().Msg("Error while connecting to grpc " + err.Error())
 		return client, err
 	}
-	client = ds.NewDatasourceClient(connection)
+	client = pb.NewDatasourceClient(connection)
 	return client, nil
 }
 
 //AddDatasource - To Add New datasource
-func AddDatasource(options ds.AddDatasourceRequest) (ds.Datasource_AddDatasourcesClient, error) {
+func AddDatasource(options pb.AddDatasourceRequest) (pb.Datasource_AddDatasourcesClient, error) {
 	//Connect grpc datasource Client
 	client, err := connectClient()
 	if err != nil {
@@ -42,7 +42,7 @@ func AddDatasource(options ds.AddDatasourceRequest) (ds.Datasource_AddDatasource
 }
 
 //ListDatasource - List All Datasource
-func ListDatasource(options ds.ListDatasourceRequest) (ds.Datasource_ListDatasourcesClient, error) {
+func ListDatasource(options pb.ListDatasourceRequest) (pb.Datasource_ListDatasourcesClient, error) {
 	//Connect grpc datasource Client
 	client, err := connectClient()
 	if err != nil {
