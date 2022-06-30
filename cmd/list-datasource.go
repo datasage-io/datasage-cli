@@ -8,22 +8,24 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var list pb.ListDatasourceRequest
+
 //datasource represents the datasource of datasage
 var listDatasourceCmd = &cobra.Command{
 	Use:   "list",
 	Short: "Datasource Commands For Manipulating Datasource in Datasage",
 	Long:  ` Datasource Commands to do List Data Datasource, Create Datasource and Delete Datasource in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		response, err := datasource.ListDatasource(pb.ListDatasourceRequest{
-			Host:     "localhost",
-			Port:     "3306",
-			User:     "root",
-			Password: "measroot",
-		})
+		list.Host = "localhost"
+		list.Port = "3306"
+		list.User = "root"
+		list.Password = "measroot"
+		stream, err := datasource.ListDatasource(list)
 		if err != nil {
 			return err
 		}
-		fmt.Println("Response is -- ", response)
+		response, err := stream.Recv()
+		fmt.Println("Response is -- ", response.GetListAllDatasources())
 		return nil
 	},
 }
