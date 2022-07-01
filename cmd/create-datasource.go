@@ -5,10 +5,12 @@ import (
 
 	"github.com/datasage-io/datasage-cli/datasource"
 	pb "github.com/datasage-io/datasage-cli/proto/datasource"
+	"github.com/google/uuid"
 	"github.com/spf13/cobra"
 )
 
 var create pb.AddDatasourceRequest
+var datadomain, dsname, dsdecription, dstype, dsversion, host, port, user, password string
 
 //datasource represents the datasource of datasage
 var createDatasourceCmd = &cobra.Command{
@@ -16,26 +18,40 @@ var createDatasourceCmd = &cobra.Command{
 	Short: "Datasource Commands For Manipulating Datasource in Datasage",
 	Long:  ` Datasource Commands to do List Data Datasource, Create Datasource and Delete Datasource in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		create.DataDomain = "datasage-cli"
-		create.DsName = "AWS"
-		create.DsDescription = "Datasage CLI description"
-		create.DsType = "MySQL"
-		create.DsVersion = "8"
-		create.DsKey = "1258fghfg87fghf365"
-		create.Host = "localhost"
-		create.Port = "3306"
-		create.User = "root"
-		create.Password = "measroot"
+		//To Generate Unique Key in String
+		unique_id := uuid.New()
+		//To Store Data from command line
+		create.DataDomain = datadomain
+		create.DsName = dsname
+		create.DsDescription = dsdecription
+		create.DsType = dstype
+		create.DsVersion = dsversion
+		create.DsKey = unique_id.String()
+		create.Host = host
+		create.Port = port
+		create.User = user
+		create.Password = password
+		fmt.Println("CLI Message -- ", create)
+		//Send to Server
 		stream, err := datasource.AddDatasource(create)
 		if err != nil {
 			return err
 		}
 		response, err := stream.Recv()
-		fmt.Println("Response is -- ", response.GetMessage())
+		fmt.Println("Response From Server --- ", response.GetMessage())
 		return nil
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(createDatasourceCmd)
+	createDatasourceCmd.Flags().StringVar(&datadomain, "datadomain", "", "input your data domain")
+	createDatasourceCmd.Flags().StringVar(&dsname, "dsname", "", "input your datasource name")
+	createDatasourceCmd.Flags().StringVar(&dsdecription, "dsdecription", "", "input your datasource description")
+	createDatasourceCmd.Flags().StringVar(&dstype, "dstype", "", "input your datasource type")
+	createDatasourceCmd.Flags().StringVar(&dsversion, "dsversion", "", "input your datasource version")
+	createDatasourceCmd.Flags().StringVar(&host, "host", "", "input your host")
+	createDatasourceCmd.Flags().StringVar(&port, "port", "", "input your port")
+	createDatasourceCmd.Flags().StringVar(&user, "user", "", "input your user")
+	createDatasourceCmd.Flags().StringVar(&password, "password", "", "input your password")
 }
