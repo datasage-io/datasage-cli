@@ -34,7 +34,7 @@ var createDatasourceCmd = &cobra.Command{
 			return err
 		}
 		response, err := stream.Recv()
-		fmt.Println("Response From Server --- ", response.GetMessage())
+		fmt.Println(response.GetMessage())
 		return nil
 	},
 }
