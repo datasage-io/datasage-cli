@@ -55,3 +55,18 @@ func ListDatasource(options pb.ListDatasourceRequest) (pb.Datasource_ListDatasou
 	}
 	return response, nil
 }
+
+//DeleteDatasource - Delete a Datasource
+func DeleteDatasource(options pb.DeleteDatasourceRequest) (pb.Datasource_DeleteDatasourcesClient, error) {
+	//Connect grpc datasource Client
+	client, err := connectClient()
+	if err != nil {
+		return nil, err
+	}
+	//Delete Datasource
+	response, err := client.DeleteDatasources(context.Background(), &options)
+	if err != nil {
+		return nil, err
+	}
+	return response, nil
+}
