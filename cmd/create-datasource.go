@@ -5,7 +5,6 @@ import (
 
 	"github.com/datasage-io/datasage-cli/datasource"
 	pb "github.com/datasage-io/datasage-cli/proto/datasource"
-	"github.com/google/uuid"
 	"github.com/spf13/cobra"
 )
 
@@ -14,19 +13,16 @@ var datadomain, dsname, dsdecription, dstype, dsversion, host, port, user, passw
 
 //datasource represents the datasource of datasage
 var createDatasourceCmd = &cobra.Command{
-	Use:   "create",
+	Use:   "add",
 	Short: "Datasource Commands For Manipulating Datasource in Datasage",
 	Long:  ` Datasource Commands to do List Data Datasource, Create Datasource and Delete Datasource in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		//To Generate Unique Key in String
-		unique_id := uuid.New()
 		//To Store Data from command line
 		create.DataDomain = datadomain
 		create.DsName = dsname
 		create.DsDescription = dsdecription
 		create.DsType = dstype
 		create.DsVersion = dsversion
-		create.DsKey = unique_id.String()
 		create.Host = host
 		create.Port = port
 		create.User = user
