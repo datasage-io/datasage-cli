@@ -4,7 +4,6 @@ go 1.18
 
 require (
 	github.com/golang/protobuf v1.5.2
-	github.com/google/uuid v1.1.2
 	github.com/rs/zerolog v1.27.0
 	github.com/spf13/cobra v1.5.0
 	google.golang.org/grpc v1.47.0
