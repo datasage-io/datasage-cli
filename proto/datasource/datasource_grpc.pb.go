@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.2.0
 // - protoc             v3.12.4
-// source: proto/datasource/datasource.proto
+// source: datasource.proto
 
 package datasource
 
@@ -254,5 +254,5 @@ var Datasource_ServiceDesc = grpc.ServiceDesc{
 			ServerStreams: true,
 		},
 	},
-	Metadata: "proto/datasource/datasource.proto",
+	Metadata: "datasource.proto",
 }

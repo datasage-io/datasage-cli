@@ -41,7 +41,7 @@ message listDatasourceResponse {
 
 //Request for Delete Datasource
 message deleteDatasourceRequest {
-    int64 id = 1;
+    string id = 1;
 }
 
 //Response for  Datasource

@@ -9,7 +9,6 @@ import (
 )
 
 var delete pb.DeleteDatasourceRequest
-var id int64
 
 //datasource represents the datasource of datasage
 var deleteDatasourceCmd = &cobra.Command{
@@ -17,7 +16,10 @@ var deleteDatasourceCmd = &cobra.Command{
 	Short: "Datasource Commands For Manipulating Datasource in Datasage",
 	Long:  ` Datasource Commands to do List Data Datasource, Create Datasource and Delete Datasource in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		delete.Id = id
+		n := len(args)
+		if n > 0 {
+			delete.Id = args[0]
+		}
 		fmt.Println("CLI Message -- ", delete)
 		//Send to Server
 		stream, err := datasource.DeleteDatasource(delete)
@@ -32,5 +34,5 @@ var deleteDatasourceCmd = &cobra.Command{
 
 func init() {
 	datasourceCmd.AddCommand(deleteDatasourceCmd)
-	deleteDatasourceCmd.Flags().Int64VarP(&id, "id", "", 0, "input your datasource id")
+	deleteDatasourceCmd.Flags().StringVarP(&delete.Id, "id", "", "", "input your datasource id")
 }
