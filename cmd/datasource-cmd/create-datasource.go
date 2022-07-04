@@ -40,7 +40,7 @@ var createDatasourceCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(createDatasourceCmd)
+	datasourceCmd.AddCommand(createDatasourceCmd)
 	createDatasourceCmd.Flags().StringVar(&datadomain, "datadomain", "", "input your data domain")
 	createDatasourceCmd.Flags().StringVar(&dsname, "dsname", "", "input your datasource name")
 	createDatasourceCmd.Flags().StringVar(&dsdecription, "dsdecription", "", "input your datasource description")

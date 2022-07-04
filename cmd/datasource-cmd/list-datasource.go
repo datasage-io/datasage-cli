@@ -34,7 +34,7 @@ var listDatasourceCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(listDatasourceCmd)
+	datasourceCmd.AddCommand(listDatasourceCmd)
 	listDatasourceCmd.Flags().StringVar(&rhost, "host", "", "input your host")
 	listDatasourceCmd.Flags().StringVar(&rport, "port", "", "input your port")
 	listDatasourceCmd.Flags().StringVar(&ruser, "user", "", "input your user")
