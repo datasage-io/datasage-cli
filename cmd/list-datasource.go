@@ -9,7 +9,7 @@ import (
 )
 
 var list pb.ListDatasourceRequest
-var rhost, rport, ruser, rpassword string
+var rhost, rport, ruser, rpassword, first, last, all string
 
 //datasource represents the datasource of datasage
 var listDatasourceCmd = &cobra.Command{
@@ -17,10 +17,14 @@ var listDatasourceCmd = &cobra.Command{
 	Short: "Datasource Commands For Manipulating Datasource in Datasage",
 	Long:  ` Datasource Commands to do List Data Datasource, Create Datasource and Delete Datasource in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
+		//To Store command Argument Value
 		list.Host = rhost
 		list.Port = rport
 		list.User = ruser
 		list.Password = rpassword
+		list.First = first
+		list.Last = last
+		list.All = all
 		fmt.Println("CLI Message -- ", list)
 		//Send to Server
 		stream, err := datasource.ListDatasource(list)
@@ -39,4 +43,7 @@ func init() {
 	listDatasourceCmd.Flags().StringVar(&rport, "port", "", "input your port")
 	listDatasourceCmd.Flags().StringVar(&ruser, "user", "", "input your user")
 	listDatasourceCmd.Flags().StringVar(&rpassword, "password", "", "input your password")
+	listDatasourceCmd.Flags().StringVar(&first, "first", "", "input your first")
+	listDatasourceCmd.Flags().StringVar(&last, "last", "", "input your last")
+	listDatasourceCmd.Flags().StringVar(&all, "all", "", "input your all")
 }
