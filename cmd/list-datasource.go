@@ -39,11 +39,11 @@ var listDatasourceCmd = &cobra.Command{
 
 func init() {
 	datasourceCmd.AddCommand(listDatasourceCmd)
-	listDatasourceCmd.Flags().StringVar(&rhost, "host", "", "input your host")
-	listDatasourceCmd.Flags().StringVar(&rport, "port", "", "input your port")
-	listDatasourceCmd.Flags().StringVar(&ruser, "user", "", "input your user")
-	listDatasourceCmd.Flags().StringVar(&rpassword, "password", "", "input your password")
-	listDatasourceCmd.Flags().StringVar(&first, "first", "", "input your first")
-	listDatasourceCmd.Flags().StringVar(&last, "last", "", "input your last")
+	// listDatasourceCmd.Flags().StringVar(&rhost, "host", "", "input your host")
+	// listDatasourceCmd.Flags().StringVar(&rport, "port", "", "input your port")
+	// listDatasourceCmd.Flags().StringVar(&ruser, "user", "", "input your user")
+	// listDatasourceCmd.Flags().StringVar(&rpassword, "password", "", "input your password")
+	// listDatasourceCmd.Flags().StringVar(&first, "first", "", "input your first")
+	// listDatasourceCmd.Flags().StringVar(&last, "last", "", "input your last")
 	listDatasourceCmd.Flags().StringVar(&all, "all", "", "input your all")
 }
