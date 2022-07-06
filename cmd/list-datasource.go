@@ -1,9 +1,8 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/datasage-io/datasage-cli/datasource-ops"
+	"github.com/datasage-io/datasage-cli/output"
 	pb "github.com/datasage-io/datasage-cli/proto/datasource"
 	"github.com/spf13/cobra"
 )
@@ -18,21 +17,24 @@ var listDatasourceCmd = &cobra.Command{
 	Long:  ` Datasource Commands to do List Data Datasource, Create Datasource and Delete Datasource in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		//To Store command Argument Value
-		list.Host = rhost
-		list.Port = rport
-		list.User = ruser
-		list.Password = rpassword
-		list.First = first
-		list.Last = last
+		// list.Host = rhost
+		// list.Port = rport
+		// list.User = ruser
+		// list.Password = rpassword
+		// list.First = first
+		// list.Last = last
 		list.All = all
-		fmt.Println("CLI Message -- ", list)
 		//Send to Server
 		stream, err := datasource.ListDatasource(list)
 		if err != nil {
 			return err
 		}
 		response, err := stream.Recv()
-		fmt.Println(response.GetListAllDatasources())
+		tbl := output.New("ID", "DATA DOMAIN", "NAME", "DESCRIPTION", "TYPE", "VERSION", "KEY", "CREATEDAT", "DELETEDAT")
+		for _, ds := range response.GetListAllDatasources() {
+			tbl.AddRow(ds.Id, ds.DataDomain, ds.DsDescription, ds.DsType, ds.DsVersion, ds.DsKey, ds.CreatedAt, ds.Deleted)
+		}
+		tbl.Print()
 		return nil
 	},
 }
