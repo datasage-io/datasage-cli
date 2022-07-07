@@ -23,7 +23,10 @@ var listDatasourceCmd = &cobra.Command{
 		// list.Password = rpassword
 		// list.First = first
 		// list.Last = last
-		list.All = all
+		n := len(args)
+		if n > 0 {
+			list.All = args[0]
+		}
 		//Send to Server
 		stream, err := datasource.ListDatasource(list)
 		if err != nil {
@@ -32,7 +35,7 @@ var listDatasourceCmd = &cobra.Command{
 		response, err := stream.Recv()
 		tbl := output.New("ID", "DATA DOMAIN", "NAME", "DESCRIPTION", "TYPE", "VERSION", "KEY", "CREATEDAT", "DELETEDAT")
 		for _, ds := range response.GetListAllDatasources() {
-			tbl.AddRow(ds.Id, ds.DataDomain, ds.DsDescription, ds.DsType, ds.DsVersion, ds.DsKey, ds.CreatedAt, ds.Deleted)
+			tbl.AddRow(ds.DsId, ds.DsDatadomain, ds.DsDescription, ds.DsType, ds.DsVersion, ds.DsKey, ds.CreatedAt)
 		}
 		tbl.Print()
 		return nil
