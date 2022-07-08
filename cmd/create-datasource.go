@@ -41,13 +41,13 @@ var createDatasourceCmd = &cobra.Command{
 
 func init() {
 	datasourceCmd.AddCommand(createDatasourceCmd)
-	createDatasourceCmd.Flags().StringVar(&datadomain, "datadomain", "", "input your data domain")
-	createDatasourceCmd.Flags().StringVar(&dsname, "dsname", "", "input your datasource name")
-	createDatasourceCmd.Flags().StringVar(&dsdecription, "dsdecription", "", "input your datasource description")
-	createDatasourceCmd.Flags().StringVar(&dstype, "dstype", "", "input your datasource type")
-	createDatasourceCmd.Flags().StringVar(&dsversion, "dsversion", "", "input your datasource version")
-	createDatasourceCmd.Flags().StringVar(&host, "host", "", "input your host")
-	createDatasourceCmd.Flags().StringVar(&port, "port", "", "input your port")
-	createDatasourceCmd.Flags().StringVar(&user, "user", "", "input your user")
-	createDatasourceCmd.Flags().StringVar(&password, "password", "", "input your password")
+	createDatasourceCmd.Flags().StringVarP(&datadomain, "datadomain", "d", "", "input your data domain")
+	createDatasourceCmd.Flags().StringVarP(&dsname, "name", "n", "", "input your datasource name")
+	createDatasourceCmd.Flags().StringVarP(&dsdecription, "decription", "", "", "input your datasource description")
+	createDatasourceCmd.Flags().StringVarP(&dstype, "type", "t", "", "input your datasource type")
+	createDatasourceCmd.Flags().StringVarP(&dsversion, "version", "v", "", "input your datasource version")
+	createDatasourceCmd.Flags().StringVarP(&host, "host", "", "", "input your host")
+	createDatasourceCmd.Flags().StringVarP(&port, "port", "", "", "input your port")
+	createDatasourceCmd.Flags().StringVarP(&user, "user", "u", "", "input your user")
+	createDatasourceCmd.Flags().StringVarP(&password, "password", "p", "", "input your password")
 }

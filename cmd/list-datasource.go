@@ -8,7 +8,6 @@ import (
 )
 
 var list pb.ListDatasourceRequest
-var rhost, rport, ruser, rpassword, first, last, all string
 
 //datasource represents the datasource of datasage
 var listDatasourceCmd = &cobra.Command{
@@ -17,12 +16,6 @@ var listDatasourceCmd = &cobra.Command{
 	Long:  ` Datasource Commands to do List Data Datasource, Create Datasource and Delete Datasource in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		//To Store command Argument Value
-		// list.Host = rhost
-		// list.Port = rport
-		// list.User = ruser
-		// list.Password = rpassword
-		// list.First = first
-		// list.Last = last
 		n := len(args)
 		if n > 0 {
 			list.All = args[0]
@@ -44,11 +37,6 @@ var listDatasourceCmd = &cobra.Command{
 
 func init() {
 	datasourceCmd.AddCommand(listDatasourceCmd)
-	// listDatasourceCmd.Flags().StringVar(&rhost, "host", "", "input your host")
-	// listDatasourceCmd.Flags().StringVar(&rport, "port", "", "input your port")
-	// listDatasourceCmd.Flags().StringVar(&ruser, "user", "", "input your user")
-	// listDatasourceCmd.Flags().StringVar(&rpassword, "password", "", "input your password")
-	// listDatasourceCmd.Flags().StringVar(&first, "first", "", "input your first")
-	// listDatasourceCmd.Flags().StringVar(&last, "last", "", "input your last")
-	listDatasourceCmd.Flags().StringVar(&all, "all", "", "input your all")
+
+	listDatasourceCmd.Flags().StringVarP(&list.All, "all", "l", "", "input your all")
 }

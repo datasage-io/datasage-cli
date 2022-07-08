@@ -34,5 +34,5 @@ var deleteDatasourceCmd = &cobra.Command{
 
 func init() {
 	datasourceCmd.AddCommand(deleteDatasourceCmd)
-	deleteDatasourceCmd.Flags().StringVarP(&delete.Id, "id", "", "", "input your datasource id")
+	deleteDatasourceCmd.Flags().StringVarP(&delete.Id, "id", "d", "", "input your datasource id")
 }
