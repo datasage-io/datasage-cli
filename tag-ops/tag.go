@@ -42,7 +42,7 @@ func AddTag(options pb.CreateTagRequest) (pb.Tag_AddTagClient, error) {
 }
 
 //ListTag - List All Tag
-func ListDatasource(options pb.ListTagRequest) (pb.Tag_ListTagClient, error) {
+func ListTag(options pb.ListTagRequest) (pb.Tag_ListTagClient, error) {
 	//Connect grpc  Client
 	client, err := connectClient()
 	if err != nil {
@@ -57,7 +57,7 @@ func ListDatasource(options pb.ListTagRequest) (pb.Tag_ListTagClient, error) {
 }
 
 //DeleteTag - Delete a Tag
-func DeleteDatasource(options pb.DeleteTagRequest) (pb.Tag_DeleteTagClient, error) {
+func DeleteTag(options pb.DeleteTagRequest) (pb.Tag_DeleteTagClient, error) {
 	//Connect grpc  Client
 	client, err := connectClient()
 	if err != nil {
