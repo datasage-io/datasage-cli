@@ -19,9 +19,8 @@ var createTagCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		//To Store Data from command line
 		createTag.TagName = tagname
-		createTag.Description = tagdescription
-		createTag.Class = tagclass
-		fmt.Println("CLI Message -- ", createTag)
+		createTag.TagDescription = tagdescription
+		createTag.TagClass = tagclass
 		//Send to Server
 		stream, err := tag.AddTag(createTag)
 		if err != nil {
@@ -35,7 +34,7 @@ var createTagCmd = &cobra.Command{
 
 func init() {
 	tagCmd.AddCommand(createTagCmd)
-	createTagCmd.Flags().StringVar(&tagname, "name", "", "input your tag name")
-	createTagCmd.Flags().StringVar(&tagdescription, "description", "", "input your tag description")
-	createTagCmd.Flags().StringVar(&tagclass, "class", "", "input your class name")
+	createTagCmd.Flags().StringVarP(&tagname, "name", "n", "", "input your tag name")
+	createTagCmd.Flags().StringVarP(&tagdescription, "description", "d", "", "input your tag description")
+	createTagCmd.Flags().StringVarP(&tagclass, "class", "c", "", "input your class name")
 }

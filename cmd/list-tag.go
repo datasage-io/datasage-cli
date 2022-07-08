@@ -17,7 +17,7 @@ var listTagCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		n := len(args)
 		if n > 0 {
-			listTag.Tagname = args[0]
+			listTag.Tag = args[0]
 		}
 		//Send to Server
 		stream, err := tag.ListTag(listTag)
@@ -25,9 +25,9 @@ var listTagCmd = &cobra.Command{
 			return err
 		}
 		response, err := stream.Recv()
-		tbl := output.New("ID", "NAME", "DESCRIPTION", "CLASS", "GENERATEDBY", "CREATEDAT", "UPDATEDAT")
+		tbl := output.New("ID", "NAME", "DESCRIPTION", "CLASS", "GENERATEDBY", "CREATEDAT")
 		for _, t := range response.GetTagResponse() {
-			tbl.AddRow(t.TagId, t.TagName, t.Description, t.Class, t.GeneratedBy, t.CreatedAt, t.UpdatedAt)
+			tbl.AddRow(t.TagId, t.TagName, t.TagDescription, t.TagClass, t.GeneratedBy, t.CreatedAt)
 		}
 		tbl.Print()
 		return nil
@@ -36,5 +36,5 @@ var listTagCmd = &cobra.Command{
 
 func init() {
 	tagCmd.AddCommand(listTagCmd)
-	listTagCmd.Flags().StringVar(&all, "", "", "input your all to get all tag ")
+	listTagCmd.Flags().StringVarP(&listTag.Tag, "all", "l", "", "input your all to get all tag ")
 }

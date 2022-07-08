@@ -33,6 +33,6 @@ var deleteTagCmd = &cobra.Command{
 }
 
 func init() {
-	datasourceCmd.AddCommand(deleteDatasourceCmd)
-	deleteDatasourceCmd.Flags().StringVarP(&deleteTag.Id, "", "", "", "input your Tag id")
+	tagCmd.AddCommand(deleteTagCmd)
+	deleteTagCmd.Flags().StringVarP(&deleteTag.Id, "id", "d", "", "input your Tag id")
 }
