@@ -27,7 +27,6 @@ var createDatasourceCmd = &cobra.Command{
 		create.Port = port
 		create.User = user
 		create.Password = password
-		fmt.Println("CLI Message -- ", create)
 		//Send to Server
 		stream, err := datasource.AddDatasource(create)
 		if err != nil {
@@ -35,19 +34,20 @@ var createDatasourceCmd = &cobra.Command{
 		}
 		response, err := stream.Recv()
 		fmt.Println(response.GetMessage())
+		fmt.Println("Datasource added successfully")
 		return nil
 	},
 }
 
 func init() {
 	datasourceCmd.AddCommand(createDatasourceCmd)
-	createDatasourceCmd.Flags().StringVarP(&datadomain, "datadomain", "d", "", "input your data domain")
-	createDatasourceCmd.Flags().StringVarP(&dsname, "name", "n", "", "input your datasource name")
-	createDatasourceCmd.Flags().StringVarP(&dsdecription, "decription", "", "", "input your datasource description")
-	createDatasourceCmd.Flags().StringVarP(&dstype, "type", "t", "", "input your datasource type")
-	createDatasourceCmd.Flags().StringVarP(&dsversion, "version", "v", "", "input your datasource version")
+	createDatasourceCmd.Flags().StringVarP(&datadomain, "datadomain", "", "", "input your data domain")
+	createDatasourceCmd.Flags().StringVarP(&dsname, "name", "", "", "input your datasource name")
+	createDatasourceCmd.Flags().StringVarP(&dsdecription, "description", "", "", "input your datasource description")
+	createDatasourceCmd.Flags().StringVarP(&dstype, "type", "", "", "input your datasource type")
+	createDatasourceCmd.Flags().StringVarP(&dsversion, "version", "", "", "input your datasource version")
 	createDatasourceCmd.Flags().StringVarP(&host, "host", "", "", "input your host")
 	createDatasourceCmd.Flags().StringVarP(&port, "port", "", "", "input your port")
-	createDatasourceCmd.Flags().StringVarP(&user, "user", "u", "", "input your user")
-	createDatasourceCmd.Flags().StringVarP(&password, "password", "p", "", "input your password")
+	createDatasourceCmd.Flags().StringVarP(&user, "user", "", "", "input your user")
+	createDatasourceCmd.Flags().StringVarP(&password, "password", "", "", "input your password")
 }

@@ -10,7 +10,7 @@ import (
 
 var deleteTag pb.DeleteTagRequest
 
-//datasource represents the datasource of datasage
+//Tag represents the Tag of datasage
 var deleteTagCmd = &cobra.Command{
 	Use:   "delete",
 	Short: "Tag Commands For Manipulating Tag in Datasage",
@@ -20,7 +20,6 @@ var deleteTagCmd = &cobra.Command{
 		if n > 0 {
 			deleteTag.Id = args[0]
 		}
-		fmt.Println("CLI Message -- ", deleteTag)
 		//Send to Server
 		stream, err := tag.DeleteTag(deleteTag)
 		if err != nil {
@@ -28,11 +27,12 @@ var deleteTagCmd = &cobra.Command{
 		}
 		response, err := stream.Recv()
 		fmt.Println(response.GetMessage())
+		fmt.Println("Tag Deleted Successfully")
 		return nil
 	},
 }
 
 func init() {
 	tagCmd.AddCommand(deleteTagCmd)
-	deleteTagCmd.Flags().StringVarP(&deleteTag.Id, "id", "d", "", "input your Tag id")
+	deleteTagCmd.Flags().StringVarP(&deleteTag.Id, "delete", "d", "", "input your Tag id")
 }

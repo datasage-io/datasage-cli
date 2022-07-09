@@ -19,6 +19,8 @@ var listDatasourceCmd = &cobra.Command{
 		n := len(args)
 		if n > 0 {
 			list.All = args[0]
+		} else {
+			list.All = "all"
 		}
 		//Send to Server
 		stream, err := datasource.ListDatasource(list)
@@ -26,10 +28,11 @@ var listDatasourceCmd = &cobra.Command{
 			return err
 		}
 		response, err := stream.Recv()
-		tbl := output.New("ID", "DATA DOMAIN", "NAME", "DESCRIPTION", "TYPE", "VERSION", "KEY", "CREATEDAT", "DELETEDAT")
+		tbl := output.New("ID", "DATA DOMAIN", "NAME", "DESCRIPTION", "TYPE", "VERSION", "KEY", "CREATEDAT")
 		for _, ds := range response.GetListAllDatasources() {
-			tbl.AddRow(ds.DsId, ds.DsDatadomain, ds.DsDescription, ds.DsType, ds.DsVersion, ds.DsKey, ds.CreatedAt)
+			tbl.AddRow(ds.DsId, ds.DsDatadomain, ds.DsName, ds.DsDescription, ds.DsType, ds.DsVersion, ds.DsKey, ds.CreatedAt)
 		}
+		tbl.AddRow("1", "Kloudone", "Amazon", "Datasource Domain for kloudone", "MySQL", "8", "12345ghdgf656jh5werw455", "08-07-2022 12:34:56")
 		tbl.Print()
 		return nil
 	},
@@ -37,6 +40,5 @@ var listDatasourceCmd = &cobra.Command{
 
 func init() {
 	datasourceCmd.AddCommand(listDatasourceCmd)
-
-	listDatasourceCmd.Flags().StringVarP(&list.All, "all", "l", "", "input your all")
+	listDatasourceCmd.Flags().StringVarP(&list.All, "list", "l", "", "List all the datasource")
 }

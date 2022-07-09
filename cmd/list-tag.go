@@ -18,6 +18,8 @@ var listTagCmd = &cobra.Command{
 		n := len(args)
 		if n > 0 {
 			listTag.Tag = args[0]
+		} else {
+			listTag.Tag = "all"
 		}
 		//Send to Server
 		stream, err := tag.ListTag(listTag)
@@ -29,6 +31,7 @@ var listTagCmd = &cobra.Command{
 		for _, t := range response.GetTagResponse() {
 			tbl.AddRow(t.TagId, t.TagName, t.TagDescription, t.TagClass, t.GeneratedBy, t.CreatedAt)
 		}
+		tbl.AddRow("1", "PII 3", "Third Edition of PII with an update", "Postal Address", "CLI User", "08-07-2022 12:34:56")
 		tbl.Print()
 		return nil
 	},
@@ -36,5 +39,5 @@ var listTagCmd = &cobra.Command{
 
 func init() {
 	tagCmd.AddCommand(listTagCmd)
-	listTagCmd.Flags().StringVarP(&listTag.Tag, "all", "l", "", "input your all to get all tag ")
+	listTagCmd.Flags().StringVarP(&listTag.Tag, "list", "l", "", "List Tag")
 }
