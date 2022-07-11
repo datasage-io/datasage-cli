@@ -20,13 +20,15 @@ var deleteClassCmd = &cobra.Command{
 		if n > 0 {
 			deleteClass.Id = args[0]
 		}
-		fmt.Println("CLI Message -- ", deleteClass)
 		//Send to Server
 		stream, err := c.DeleteClass(deleteClass)
 		if err != nil {
 			return err
 		}
 		response, err := stream.Recv()
+		if err != nil {
+			return err
+		}
 		fmt.Println(response.GetMessage())
 		return nil
 	},
@@ -34,5 +36,5 @@ var deleteClassCmd = &cobra.Command{
 
 func init() {
 	classCmd.AddCommand(deleteClassCmd)
-	deleteClassCmd.Flags().StringVarP(&deleteClass.Id, "id", "d", "", "input your Class id")
+	deleteClassCmd.Flags().StringVarP(&deleteClass.Id, "delete", "d", "", "input your Class id")
 }

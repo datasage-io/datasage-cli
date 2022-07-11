@@ -29,6 +29,9 @@ var createClassCmd = &cobra.Command{
 			return err
 		}
 		response, err := stream.Recv()
+		if err != nil {
+			return err
+		}
 		fmt.Println(response.GetMessage())
 		return nil
 	},

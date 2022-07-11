@@ -27,11 +27,10 @@ var listTagCmd = &cobra.Command{
 			return err
 		}
 		response, err := stream.Recv()
-		tbl := output.New("ID", "NAME", "DESCRIPTION", "CLASS", "GENERATEDBY", "CREATEDAT")
+		tbl := output.New("ID", "NAME", "DESCRIPTION", "CLASS")
 		for _, t := range response.GetTagResponse() {
-			tbl.AddRow(t.TagId, t.TagName, t.TagDescription, t.TagClass, t.GeneratedBy, t.CreatedAt)
+			tbl.AddRow(t.TagId, t.TagName, t.TagDescription, t.TagClass)
 		}
-		tbl.AddRow("1", "PII 3", "Third Edition of PII with an update", "Postal Address", "CLI User", "08-07-2022 12:34:56")
 		tbl.Print()
 		return nil
 	},

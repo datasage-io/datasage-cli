@@ -27,8 +27,10 @@ var createTagCmd = &cobra.Command{
 			return err
 		}
 		response, err := stream.Recv()
+		if err != nil {
+			return err
+		}
 		fmt.Println(response.GetMessage())
-		fmt.Println("Tag Added Successfully")
 		return nil
 	},
 }

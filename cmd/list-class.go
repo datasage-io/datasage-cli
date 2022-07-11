@@ -25,9 +25,12 @@ var listClassCmd = &cobra.Command{
 			return err
 		}
 		response, err := stream.Recv()
-		tbl := output.New("ID", "NAME", "DESCRIPTION", "TAG", "GENERATEDBY", "CREATEDAT")
+		if err != nil {
+			return err
+		}
+		tbl := output.New("ID", "NAME", "DESCRIPTION", "TAG")
 		for _, c := range response.GetClassResponse() {
-			tbl.AddRow(c.ClassId, c.ClassName, c.ClassDescription, c.ClassTag, c.GeneratedBy, c.CreatedAt)
+			tbl.AddRow(c.ClassId, c.ClassName, c.ClassDescription, c.ClassTag)
 		}
 		tbl.Print()
 		return nil

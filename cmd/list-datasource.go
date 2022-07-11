@@ -28,11 +28,13 @@ var listDatasourceCmd = &cobra.Command{
 			return err
 		}
 		response, err := stream.Recv()
-		tbl := output.New("ID", "DATA DOMAIN", "NAME", "DESCRIPTION", "TYPE", "VERSION", "KEY", "CREATEDAT")
-		for _, ds := range response.GetListAllDatasources() {
-			tbl.AddRow(ds.DsId, ds.DsDatadomain, ds.DsName, ds.DsDescription, ds.DsType, ds.DsVersion, ds.DsKey, ds.CreatedAt)
+		if err != nil {
+			return err
 		}
-		tbl.AddRow("1", "Kloudone", "Amazon", "Datasource Domain for kloudone", "MySQL", "8", "12345ghdgf656jh5werw455", "08-07-2022 12:34:56")
+		tbl := output.New("ID", "DATA DOMAIN", "NAME", "DESCRIPTION", "TYPE", "VERSION", "KEY")
+		for _, ds := range response.GetListAllDatasources() {
+			tbl.AddRow(ds.DsId, ds.DsDatadomain, ds.DsName, ds.DsDescription, ds.DsType, ds.DsVersion, ds.DsKey)
+		}
 		tbl.Print()
 		return nil
 	},
