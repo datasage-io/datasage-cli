@@ -28,9 +28,9 @@ var listClassCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		tbl := output.New("ID", "NAME", "DESCRIPTION", "TAG")
+		tbl := output.New("ID", "NAME", "DESCRIPTION", "TAG", "CREATEAT")
 		for _, c := range response.GetClassResponse() {
-			tbl.AddRow(c.ClassId, c.ClassName, c.ClassDescription, c.ClassTag)
+			tbl.AddRow(c.ClassId, c.ClassName, c.ClassDescription, c.ClassTag, c.CreatedAt)
 		}
 		tbl.Print()
 		return nil

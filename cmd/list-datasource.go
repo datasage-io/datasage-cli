@@ -31,9 +31,9 @@ var listDatasourceCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		tbl := output.New("ID", "DATA DOMAIN", "NAME", "DESCRIPTION", "TYPE", "VERSION", "KEY")
+		tbl := output.New("ID", "DATA DOMAIN", "NAME", "DESCRIPTION", "TYPE", "VERSION", "KEY", "CREATEDAT")
 		for _, ds := range response.GetListAllDatasources() {
-			tbl.AddRow(ds.DsId, ds.DsDatadomain, ds.DsName, ds.DsDescription, ds.DsType, ds.DsVersion, ds.DsKey)
+			tbl.AddRow(ds.DsId, ds.DsDatadomain, ds.DsName, ds.DsDescription, ds.DsType, ds.DsVersion, ds.DsKey, ds.CreatedAt)
 		}
 		tbl.Print()
 		return nil

@@ -27,9 +27,9 @@ var listTagCmd = &cobra.Command{
 			return err
 		}
 		response, err := stream.Recv()
-		tbl := output.New("ID", "NAME", "DESCRIPTION", "CLASS")
+		tbl := output.New("ID", "NAME", "DESCRIPTION", "CLASS", "CREATEDAT")
 		for _, t := range response.GetTagResponse() {
-			tbl.AddRow(t.TagId, t.TagName, t.TagDescription, t.TagClass)
+			tbl.AddRow(t.TagId, t.TagName, t.TagDescription, t.TagClass, t.CreatedAt)
 		}
 		tbl.Print()
 		return nil
