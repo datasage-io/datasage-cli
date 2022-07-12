@@ -27,46 +27,46 @@ func connectClient() (pb.DatasourceClient, error) {
 }
 
 //AddDatasource - To Add New datasource
-func AddDatasource(options pb.AddRequest) (pb.Datasource_AddDatasourceClient, error) {
+func AddDatasource(options pb.AddRequest) (pb.MessageResponse, error) {
 	//Connect grpc datasource Client
 	client, err := connectClient()
 	if err != nil {
-		return nil, err
+		return pb.MessageResponse{Message: ""}, err
 	}
 	//Add Datasource
 	response, err := client.AddDatasource(context.Background(), &options)
 	if err != nil {
-		return nil, err
+		return pb.MessageResponse{Message: ""}, err
 	}
-	return response, nil
+	return pb.MessageResponse{Message: response.GetMessage()}, nil
 }
 
 //ListDatasource - List All Datasource
-func ListDatasource(options pb.ListRequest) (pb.Datasource_ListDatasourceClient, error) {
+func ListDatasource(options pb.ListRequest) (pb.ListResponse, error) {
 	//Connect grpc datasource Client
 	client, err := connectClient()
 	if err != nil {
-		return nil, err
+		return pb.ListResponse{ListAllDatasources: nil, Count: 0}, err
 	}
 	//List Datasource
 	response, err := client.ListDatasource(context.Background(), &options)
 	if err != nil {
-		return nil, err
+		return pb.ListResponse{ListAllDatasources: nil, Count: 0}, err
 	}
-	return response, nil
+	return pb.ListResponse{ListAllDatasources: response.GetListAllDatasources(), Count: response.GetCount()}, nil
 }
 
 //DeleteDatasource - Delete a Datasource
-func DeleteDatasource(options pb.DeleteRequest) (pb.Datasource_DeleteDatasourceClient, error) {
+func DeleteDatasource(options pb.DeleteRequest) (pb.MessageResponse, error) {
 	//Connect grpc datasource Client
 	client, err := connectClient()
 	if err != nil {
-		return nil, err
+		return pb.MessageResponse{Message: ""}, err
 	}
 	//Delete Datasource
 	response, err := client.DeleteDatasource(context.Background(), &options)
 	if err != nil {
-		return nil, err
+		return pb.MessageResponse{Message: ""}, err
 	}
-	return response, nil
+	return pb.MessageResponse{Message: response.GetMessage()}, nil
 }

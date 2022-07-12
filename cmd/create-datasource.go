@@ -28,11 +28,7 @@ var createDatasourceCmd = &cobra.Command{
 		create.User = user
 		create.Password = password
 		//Send to Server
-		stream, err := datasource.AddDatasource(create)
-		if err != nil {
-			return err
-		}
-		response, err := stream.Recv()
+		response, err := datasource.AddDatasource(create)
 		if err != nil {
 			return err
 		}

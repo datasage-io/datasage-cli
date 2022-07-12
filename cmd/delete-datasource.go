@@ -26,11 +26,7 @@ var deleteDatasourceCmd = &cobra.Command{
 			delete.IsDeleteAll = true
 		}
 		//Send to Server
-		stream, err := datasource.DeleteDatasource(delete)
-		if err != nil {
-			return err
-		}
-		response, err := stream.Recv()
+		response, err := datasource.DeleteDatasource(delete)
 		if err != nil {
 			return err
 		}

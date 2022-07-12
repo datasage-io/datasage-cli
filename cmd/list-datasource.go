@@ -25,11 +25,7 @@ var listDatasourceCmd = &cobra.Command{
 		//last
 		list.Last = int64(last)
 		//Send to Server
-		stream, err := datasource.ListDatasource(list)
-		if err != nil {
-			return err
-		}
-		response, err := stream.Recv()
+		response, err := datasource.ListDatasource(list)
 		if err != nil {
 			return err
 		}
