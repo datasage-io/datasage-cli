@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var delete pb.DeleteDatasourceRequest
+var delete pb.DeleteRequest
 
 //datasource represents the datasource of datasage
 var deleteDatasourceCmd = &cobra.Command{
@@ -16,9 +16,14 @@ var deleteDatasourceCmd = &cobra.Command{
 	Short: "Datasource Commands For Manipulating Datasource in Datasage",
 	Long:  ` Datasource Commands to do List Data Datasource, Create Datasource and Delete Datasource in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		n := len(args)
-		if n > 0 {
-			delete.Id = args[0]
+		//To Store ID
+		for _, val := range args {
+			delete.Id = append(delete.Id, val)
+		}
+
+		//Delete All
+		if delete.IsDeleteAll {
+			delete.IsDeleteAll = true
 		}
 		//Send to Server
 		stream, err := datasource.DeleteDatasource(delete)
@@ -36,5 +41,6 @@ var deleteDatasourceCmd = &cobra.Command{
 
 func init() {
 	datasourceCmd.AddCommand(deleteDatasourceCmd)
-	deleteDatasourceCmd.Flags().StringVarP(&delete.Id, "delete", "d", "", "input your datasource id")
+	deleteDatasourceCmd.Flags().StringArrayVarP(&delete.Id, "id", "d", nil, "input your datasource id's")
+	deleteDatasourceCmd.Flags().BoolVarP(&delete.IsDeleteAll, "all", "", false, "delete all datasource's")
 }

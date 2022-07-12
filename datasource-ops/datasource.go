@@ -27,14 +27,14 @@ func connectClient() (pb.DatasourceClient, error) {
 }
 
 //AddDatasource - To Add New datasource
-func AddDatasource(options pb.AddDatasourceRequest) (pb.Datasource_AddDatasourcesClient, error) {
+func AddDatasource(options pb.AddRequest) (pb.Datasource_AddDatasourceClient, error) {
 	//Connect grpc datasource Client
 	client, err := connectClient()
 	if err != nil {
 		return nil, err
 	}
 	//Add Datasource
-	response, err := client.AddDatasources(context.Background(), &options)
+	response, err := client.AddDatasource(context.Background(), &options)
 	if err != nil {
 		return nil, err
 	}
@@ -42,14 +42,14 @@ func AddDatasource(options pb.AddDatasourceRequest) (pb.Datasource_AddDatasource
 }
 
 //ListDatasource - List All Datasource
-func ListDatasource(options pb.ListDatasourceRequest) (pb.Datasource_ListDatasourcesClient, error) {
+func ListDatasource(options pb.ListRequest) (pb.Datasource_ListDatasourceClient, error) {
 	//Connect grpc datasource Client
 	client, err := connectClient()
 	if err != nil {
 		return nil, err
 	}
 	//List Datasource
-	response, err := client.ListDatasources(context.Background(), &options)
+	response, err := client.ListDatasource(context.Background(), &options)
 	if err != nil {
 		return nil, err
 	}
@@ -57,14 +57,14 @@ func ListDatasource(options pb.ListDatasourceRequest) (pb.Datasource_ListDatasou
 }
 
 //DeleteDatasource - Delete a Datasource
-func DeleteDatasource(options pb.DeleteDatasourceRequest) (pb.Datasource_DeleteDatasourcesClient, error) {
+func DeleteDatasource(options pb.DeleteRequest) (pb.Datasource_DeleteDatasourceClient, error) {
 	//Connect grpc datasource Client
 	client, err := connectClient()
 	if err != nil {
 		return nil, err
 	}
 	//Delete Datasource
-	response, err := client.DeleteDatasources(context.Background(), &options)
+	response, err := client.DeleteDatasource(context.Background(), &options)
 	if err != nil {
 		return nil, err
 	}
