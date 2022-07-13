@@ -40,5 +40,5 @@ var readPolicycmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(readPolicycmd)
-	readPolicycmd.Flags().StringVarP(&policy.Policy, "read", "f", "", "Read Policy YAML File")
+	readPolicycmd.Flags().StringVarP(&policy.Policy, "f", "f", "", "Read Policy YAML File")
 }
