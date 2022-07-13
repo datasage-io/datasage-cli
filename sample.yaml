@@ -1,0 +1,37 @@
+version: 1
+type: DPPolicy
+metadata:
+    name: UserDataPolicy
+rules:
+    - sensitive_elements:
+        - demo_db020.secrets..pem Keys
+      user: [ALL]
+      actions:
+        - Audit Read
+        - Audit write
+        - Audit Delete
+        - Audit Modification
+    - sensitive_elements:
+        - demo_db020.secrets..ppk Keys
+      user: [ALL]
+      actions:
+        - Audit Read
+        - Audit write
+        - Audit Delete
+        - Audit Modification
+    - sensitive_elements:
+        - demo_db020.secrets..XML Keys
+      user: [ALL]
+      actions:
+        - Audit Read
+        - Audit write
+        - Audit Delete
+        - Audit Modification
+    - sensitive_elements:
+        - demo_db020.secrets.AWS Secrets
+      user: [ALL]
+      actions:
+        - Audit Read
+        - Audit write
+        - Audit Delete
+        - Audit Modification
