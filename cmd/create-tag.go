@@ -8,8 +8,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var createTag pb.CreateTagRequest
-var tagname, tagdescription, tagclass string
+var createTag pb.AddRequest
+var tagname, tagdescription string
 
 //createTagCmd represents the tag of datasage
 var createTagCmd = &cobra.Command{
@@ -18,15 +18,14 @@ var createTagCmd = &cobra.Command{
 	Long:  ` Tag Commands to do List Tag Create Tag and Delete Tag in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		//To Store Data from command line
-		createTag.TagName = tagname
-		createTag.TagDescription = tagdescription
-		createTag.TagClass = tagclass
-		//Send to Server
-		stream, err := tag.AddTag(createTag)
-		if err != nil {
-			return err
+		createTag.Name = tagname
+		createTag.Description = tagdescription
+		//to Sotre Class names
+		for _, val := range args {
+			createTag.Class = append(createTag.Class, val)
 		}
-		response, err := stream.Recv()
+		//Send to Server
+		response, err := tag.AddTag(createTag)
 		if err != nil {
 			return err
 		}
@@ -39,5 +38,5 @@ func init() {
 	tagCmd.AddCommand(createTagCmd)
 	createTagCmd.Flags().StringVarP(&tagname, "name", "n", "", "input your tag name")
 	createTagCmd.Flags().StringVarP(&tagdescription, "description", "d", "", "input your tag description")
-	createTagCmd.Flags().StringVarP(&tagclass, "class", "c", "", "input your class name")
+	createTagCmd.Flags().StringArrayVarP(&createTag.Class, "class", "c", nil, "input your class name")
 }

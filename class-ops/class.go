@@ -27,46 +27,46 @@ func connectClient() (pb.ClassClient, error) {
 }
 
 //AddClass - To Add New Class
-func AddClass(options pb.CreateClassRequest) (pb.Class_AddClassClient, error) {
+func AddClass(options pb.CreateRequest) (*pb.MessageResponse, error) {
 	//Connect grpc Client
 	client, err := connectClient()
 	if err != nil {
-		return nil, err
+		return &pb.MessageResponse{Message: ""}, err
 	}
 	//Add Class
 	response, err := client.AddClass(context.Background(), &options)
 	if err != nil {
-		return nil, err
+		return &pb.MessageResponse{Message: ""}, err
 	}
-	return response, nil
+	return &pb.MessageResponse{Message: response.GetMessage()}, nil
 }
 
 //ListClass - List All Class
-func ListClass(options pb.ListClassRequest) (pb.Class_ListClassClient, error) {
+func ListClass(options pb.ListRequest) (*pb.ListResponse, error) {
 	//Connect grpc  Client
 	client, err := connectClient()
 	if err != nil {
-		return nil, err
+		return &pb.ListResponse{ClassResponse: nil, Count: 0}, err
 	}
 	//List Class
 	response, err := client.ListClass(context.Background(), &options)
 	if err != nil {
-		return nil, err
+		return &pb.ListResponse{ClassResponse: nil, Count: 0}, err
 	}
-	return response, nil
+	return &pb.ListResponse{ClassResponse: response.GetClassResponse(), Count: response.GetCount()}, nil
 }
 
 //DeleteClass - Delete a Class
-func DeleteClass(options pb.DeleteClassRequest) (pb.Class_DeleteClassClient, error) {
+func DeleteClass(options pb.DeleteRequest) (*pb.MessageResponse, error) {
 	//Connect grpc  Client
 	client, err := connectClient()
 	if err != nil {
-		return nil, err
+		return &pb.MessageResponse{Message: ""}, err
 	}
 	//Delete Class
 	response, err := client.DeleteClass(context.Background(), &options)
 	if err != nil {
-		return nil, err
+		return &pb.MessageResponse{Message: ""}, err
 	}
-	return response, nil
+	return &pb.MessageResponse{Message: response.GetMessage()}, nil
 }

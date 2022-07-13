@@ -1,13 +1,16 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/datasage-io/datasage-cli/output"
 	pb "github.com/datasage-io/datasage-cli/proto/tag"
 	"github.com/datasage-io/datasage-cli/tag-ops"
 	"github.com/spf13/cobra"
 )
 
-var listTag pb.ListTagRequest
+var listTag pb.ListRequest
+var firstTag, lastTag, limitTag int
 
 //datasource represents the datasource of datasage
 var listTagCmd = &cobra.Command{
@@ -15,21 +18,25 @@ var listTagCmd = &cobra.Command{
 	Short: "Tag Commands For Manipulating Tag in Datasage",
 	Long:  ` Tag Commands to do List Tag, Create Tag and Delete Tag in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		n := len(args)
-		if n > 0 {
-			listTag.Tag = args[0]
-		} else {
-			listTag.Tag = "all"
-		}
+		//Limit
+		listTag.Limit = int64(limitTag)
+		//first
+		listTag.First = int64(firstTag)
+		//last
+		listTag.Last = int64(lastTag)
 		//Send to Server
-		stream, err := tag.ListTag(listTag)
+		response, err := tag.ListTag(listTag)
 		if err != nil {
 			return err
 		}
-		response, err := stream.Recv()
+		//Count Datasource
+		if listTag.Count {
+			fmt.Println("Total Tag is --- ", response.GetCount())
+			return nil
+		}
 		tbl := output.New("ID", "NAME", "DESCRIPTION", "CLASS", "CREATEDAT")
 		for _, t := range response.GetTagResponse() {
-			tbl.AddRow(t.TagId, t.TagName, t.TagDescription, t.TagClass, t.CreatedAt)
+			tbl.AddRow(t.Id, t.Name, t.Description, t.Class, t.CreatedAt)
 		}
 		tbl.Print()
 		return nil
@@ -38,5 +45,11 @@ var listTagCmd = &cobra.Command{
 
 func init() {
 	tagCmd.AddCommand(listTagCmd)
-	listTagCmd.Flags().StringVarP(&listTag.Tag, "list", "l", "", "List Tag")
+	listTagCmd.Flags().IntVarP(&limit, "limit", "", 0, "limit the tag")
+	listTagCmd.Flags().IntVarP(&first, "first", "", 0, "list first the tag")
+	listTagCmd.Flags().IntVarP(&last, "last", "", 0, "list last the tag")
+	listTagCmd.Flags().BoolVarP(&listTag.Count, "count", "", false, "list count the tag")
+	listTagCmd.Flags().StringVarP(&listTag.Name, "name", "", "", "List filter by name tag")
+	listTagCmd.Flags().StringArrayVarP(&listTag.Class, "class", "", nil, "List filter by type class")
+	listTagCmd.Flags().StringArrayVarP(&listTag.Id, "id", "", nil, "Get Tag By Id")
 }

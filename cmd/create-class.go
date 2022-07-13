@@ -8,8 +8,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var class pb.CreateClassRequest
-var classname, classdescription, classtag string
+var class pb.CreateRequest
+var classname, classdescription string
 
 //class represents
 var createClassCmd = &cobra.Command{
@@ -18,17 +18,15 @@ var createClassCmd = &cobra.Command{
 	Long:  ` Class Commands to do List CLass, Create Class and Delete Class in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		//To Store Data from command line
-		class.ClassName = classname
-		class.ClassDescription = classdescription
-		class.ClassTag = classtag
-
-		fmt.Println("CLI Message -- ", class)
-		//Send to Server
-		stream, err := c.AddClass(class)
-		if err != nil {
-			return err
+		class.Name = classname
+		class.Description = classdescription
+		//to Sotre Class names
+		for _, val := range args {
+			class.Tag = append(class.Tag, val)
 		}
-		response, err := stream.Recv()
+
+		//Send to Server
+		response, err := c.AddClass(class)
 		if err != nil {
 			return err
 		}
@@ -41,5 +39,5 @@ func init() {
 	classCmd.AddCommand(createClassCmd)
 	createClassCmd.Flags().StringVarP(&classname, "name", "n", "", "input your class name")
 	createClassCmd.Flags().StringVarP(&classdescription, "description", "d", "", "input your class description")
-	createClassCmd.Flags().StringVarP(&classtag, "tag", "t", "", "input your class tag")
+	createClassCmd.Flags().StringArrayVarP(&class.Tag, "tag", "t", nil, "input your class tag")
 }

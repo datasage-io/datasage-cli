@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var deleteClass pb.DeleteClassRequest
+var deleteClass pb.DeleteRequest
 
 //Class represents the class of datasage
 var deleteClassCmd = &cobra.Command{
@@ -16,16 +16,17 @@ var deleteClassCmd = &cobra.Command{
 	Short: "Class Commands For Manipulating Class in Datasage",
 	Long:  ` Class Commands to do List Class Data , Create Class and Delete Class in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		n := len(args)
-		if n > 0 {
-			deleteClass.Id = args[0]
+		//To Store ID
+		for _, val := range args {
+			deleteClass.Id = append(deleteClass.Id, val)
+		}
+
+		//Delete All
+		if deleteClass.IsDeleteAll {
+			deleteClass.IsDeleteAll = true
 		}
 		//Send to Server
-		stream, err := c.DeleteClass(deleteClass)
-		if err != nil {
-			return err
-		}
-		response, err := stream.Recv()
+		response, err := c.DeleteClass(deleteClass)
 		if err != nil {
 			return err
 		}
@@ -36,5 +37,6 @@ var deleteClassCmd = &cobra.Command{
 
 func init() {
 	classCmd.AddCommand(deleteClassCmd)
-	deleteClassCmd.Flags().StringVarP(&deleteClass.Id, "delete", "d", "", "input your Class id")
+	deleteClassCmd.Flags().StringArrayVarP(&delete.Id, "id", "d", nil, "input your class id's")
+	deleteClassCmd.Flags().BoolVarP(&delete.IsDeleteAll, "all", "", false, "delete all class's")
 }

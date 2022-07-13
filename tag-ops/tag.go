@@ -27,46 +27,46 @@ func connectClient() (pb.TagClient, error) {
 }
 
 //AddTag - To Add New tag
-func AddTag(options pb.CreateTagRequest) (pb.Tag_AddTagClient, error) {
+func AddTag(options pb.AddRequest) (pb.MessageResponse, error) {
 	//Connect grpc Client
 	client, err := connectClient()
 	if err != nil {
-		return nil, err
+		return pb.MessageResponse{Message: ""}, err
 	}
 	//Add Tag
 	response, err := client.AddTag(context.Background(), &options)
 	if err != nil {
-		return nil, err
+		return pb.MessageResponse{Message: ""}, err
 	}
-	return response, nil
+	return pb.MessageResponse{Message: response.GetMessage()}, nil
 }
 
 //ListTag - List All Tag
-func ListTag(options pb.ListTagRequest) (pb.Tag_ListTagClient, error) {
+func ListTag(options pb.ListRequest) (pb.ListResponse, error) {
 	//Connect grpc  Client
 	client, err := connectClient()
 	if err != nil {
-		return nil, err
+		return pb.ListResponse{TagResponse: nil, Count: 0}, err
 	}
 	//List Tag
 	response, err := client.ListTag(context.Background(), &options)
 	if err != nil {
-		return nil, err
+		return pb.ListResponse{TagResponse: nil, Count: 0}, err
 	}
-	return response, nil
+	return pb.ListResponse{TagResponse: response.GetTagResponse(), Count: response.GetCount()}, nil
 }
 
 //DeleteTag - Delete a Tag
-func DeleteTag(options pb.DeleteTagRequest) (pb.Tag_DeleteTagClient, error) {
+func DeleteTag(options pb.DeleteRequest) (pb.MessageResponse, error) {
 	//Connect grpc  Client
 	client, err := connectClient()
 	if err != nil {
-		return nil, err
+		return pb.MessageResponse{Message: ""}, err
 	}
 	//Delete Tag
 	response, err := client.DeleteTag(context.Background(), &options)
 	if err != nil {
-		return nil, err
+		return pb.MessageResponse{Message: ""}, err
 	}
-	return response, nil
+	return pb.MessageResponse{Message: response.GetMessage()}, nil
 }
