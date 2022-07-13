@@ -19,11 +19,17 @@ var listClassCmd = &cobra.Command{
 	Long:  ` Class Commands to do List Class, Create Class and Delete Class in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		//Limit
-		listClass.Limit = int64(firstClass)
+		listClass.Limit = int64(limitClass)
 		//first
-		listClass.First = int64(lastClass)
+		listClass.First = int64(firstClass)
 		//last
-		listClass.Last = int64(limitClass)
+		listClass.Last = int64(lastClass)
+		//To Store Array of ID's
+		if len(args) != 0 {
+			for _, val := range args {
+				listClass.Id = append(listClass.Id, val)
+			}
+		}
 		//Send to Server
 		response, err := c.ListClass(listClass)
 		if err != nil {
@@ -45,9 +51,9 @@ var listClassCmd = &cobra.Command{
 
 func init() {
 	classCmd.AddCommand(listClassCmd)
-	listClassCmd.Flags().IntVarP(&limit, "limit", "", 0, "limit the class")
-	listClassCmd.Flags().IntVarP(&first, "first", "", 0, "list first the class")
-	listClassCmd.Flags().IntVarP(&last, "last", "", 0, "list last the class")
+	listClassCmd.Flags().IntVarP(&limitClass, "limit", "", 0, "limit the class")
+	listClassCmd.Flags().IntVarP(&firstClass, "first", "", 0, "list first the class")
+	listClassCmd.Flags().IntVarP(&lastClass, "last", "", 0, "list last the class")
 	listClassCmd.Flags().BoolVarP(&listClass.Count, "count", "", false, "list count the class")
 	listClassCmd.Flags().StringVarP(&listClass.Name, "name", "", "", "List filter by name class")
 	listClassCmd.Flags().StringArrayVarP(&listClass.Tag, "tag", "", nil, "List filter by type tag")

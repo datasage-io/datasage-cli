@@ -17,8 +17,10 @@ var deleteClassCmd = &cobra.Command{
 	Long:  ` Class Commands to do List Class Data , Create Class and Delete Class in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		//To Store ID
-		for _, val := range args {
-			deleteClass.Id = append(deleteClass.Id, val)
+		if len(args) != 0 {
+			for _, val := range args {
+				deleteClass.Id = append(deleteClass.Id, val)
+			}
 		}
 
 		//Delete All
@@ -37,6 +39,6 @@ var deleteClassCmd = &cobra.Command{
 
 func init() {
 	classCmd.AddCommand(deleteClassCmd)
-	deleteClassCmd.Flags().StringArrayVarP(&delete.Id, "id", "d", nil, "input your class id's")
-	deleteClassCmd.Flags().BoolVarP(&delete.IsDeleteAll, "all", "", false, "delete all class's")
+	deleteClassCmd.Flags().StringArrayVarP(&deleteClass.Id, "id", "d", nil, "input your class id's")
+	deleteClassCmd.Flags().BoolVarP(&deleteClass.IsDeleteAll, "all", "", false, "delete all class's")
 }

@@ -24,6 +24,12 @@ var listTagCmd = &cobra.Command{
 		listTag.First = int64(firstTag)
 		//last
 		listTag.Last = int64(lastTag)
+		//To Store Array of ID's
+		if len(args) != 0 {
+			for _, val := range args {
+				listTag.Id = append(listTag.Id, val)
+			}
+		}
 		//Send to Server
 		response, err := tag.ListTag(listTag)
 		if err != nil {
