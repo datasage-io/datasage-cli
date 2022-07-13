@@ -21,8 +21,6 @@ var deleteTagCmd = &cobra.Command{
 			for _, val := range args {
 				deleteTag.Id = append(deleteTag.Id, val)
 			}
-		} else {
-			fmt.Println("Invalid Command")
 		}
 
 		//Delete All
