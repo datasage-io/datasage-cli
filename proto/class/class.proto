@@ -18,7 +18,7 @@ message createRequest {
     string description  = 2;
     repeated string tag = 3;
 }
-
+     
 //Response for  Class
 message messageResponse {
     string message = 1;
@@ -40,7 +40,7 @@ message ClassResponse {
     string    id            = 1;
     string    name          = 2;
     string    description   = 3; 
-    string    tag           = 4; 
+    repeated string  tag    = 4; 
     string    created_at    = 6;
 }
 
