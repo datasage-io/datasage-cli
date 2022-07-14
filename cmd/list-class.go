@@ -10,7 +10,7 @@ import (
 )
 
 var listClass pb.ListRequest
-var firstClass, lastClass, limitClass int
+var lastClass, limitClass int
 
 //Class represents the class of datasage
 var listClassCmd = &cobra.Command{
@@ -20,8 +20,6 @@ var listClassCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		//Limit
 		listClass.Limit = int64(limitClass)
-		//first
-		listClass.First = int64(firstClass)
 		//last
 		listClass.Last = int64(lastClass)
 		//To Store Array of ID's
@@ -52,7 +50,6 @@ var listClassCmd = &cobra.Command{
 func init() {
 	classCmd.AddCommand(listClassCmd)
 	listClassCmd.Flags().IntVarP(&limitClass, "limit", "", 0, "limit the class")
-	listClassCmd.Flags().IntVarP(&firstClass, "first", "", 0, "list first the class")
 	listClassCmd.Flags().IntVarP(&lastClass, "last", "", 0, "list last the class")
 	listClassCmd.Flags().BoolVarP(&listClass.Count, "count", "", false, "list count the class")
 	listClassCmd.Flags().StringVarP(&listClass.Name, "name", "", "", "List filter by name class")

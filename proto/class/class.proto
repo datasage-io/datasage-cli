@@ -29,10 +29,9 @@ message listRequest {
     repeated string id    = 1; 
     string name           = 2;
     repeated string tag   = 3;
-    int64 first           = 4;
-    int64 last            = 5;
-    int64 limit           = 6;
-    bool count            = 7;
+    int64 last            = 4;
+    int64 limit           = 5;
+    bool count            = 6;
 }
 
 //Class Response Structure

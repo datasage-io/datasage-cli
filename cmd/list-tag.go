@@ -10,7 +10,7 @@ import (
 )
 
 var listTag pb.ListRequest
-var firstTag, lastTag, limitTag int
+var lastTag, limitTag int
 
 //datasource represents the datasource of datasage
 var listTagCmd = &cobra.Command{
@@ -20,8 +20,6 @@ var listTagCmd = &cobra.Command{
 	RunE: func(cmd *cobra.Command, args []string) error {
 		//Limit
 		listTag.Limit = int64(limitTag)
-		//first
-		listTag.First = int64(firstTag)
 		//last
 		listTag.Last = int64(lastTag)
 		//To Store Array of ID's
@@ -52,7 +50,6 @@ var listTagCmd = &cobra.Command{
 func init() {
 	tagCmd.AddCommand(listTagCmd)
 	listTagCmd.Flags().IntVarP(&limit, "limit", "", 0, "limit the tag")
-	listTagCmd.Flags().IntVarP(&first, "first", "", 0, "list first the tag")
 	listTagCmd.Flags().IntVarP(&last, "last", "", 0, "list last the tag")
 	listTagCmd.Flags().BoolVarP(&listTag.Count, "count", "", false, "list count the tag")
 	listTagCmd.Flags().StringVarP(&listTag.Name, "name", "", "", "List filter by name tag")
