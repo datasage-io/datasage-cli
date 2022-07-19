@@ -3,7 +3,7 @@ module github.com/datasage-io/datasage-cli
 go 1.18
 
 require (
-	github.com/golang/protobuf v1.5.2
+	github.com/fatih/color v1.13.0
 	github.com/rs/zerolog v1.27.0
 	github.com/spf13/cobra v1.5.0
 	google.golang.org/grpc v1.47.0
@@ -11,6 +11,7 @@ require (
 )
 
 require (
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
 	github.com/mattn/go-colorable v0.1.12 // indirect
 	github.com/mattn/go-isatty v0.0.14 // indirect

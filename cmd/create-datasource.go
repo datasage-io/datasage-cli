@@ -3,37 +3,49 @@ package cmd
 import (
 	"fmt"
 
-	"github.com/datasage-io/datasage-cli/datasource"
-	ds "github.com/datasage-io/datasage-cli/proto/datasource"
+	"github.com/datasage-io/datasage-cli/datasource-ops"
+	pb "github.com/datasage-io/datasage-cli/proto/datasource"
 	"github.com/spf13/cobra"
 )
 
+var create pb.AddRequest
+var datadomain, name, decription, dstype, version, host, port, user, password string
+
 //datasource represents the datasource of datasage
 var createDatasourceCmd = &cobra.Command{
-	Use:   "create",
+	Use:   "add",
 	Short: "Datasource Commands For Manipulating Datasource in Datasage",
 	Long:  ` Datasource Commands to do List Data Datasource, Create Datasource and Delete Datasource in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		response, err := datasource.AddDatasource(ds.AddDatasourceRequest{
-			DataDomain:    "datasage-cli",
-			DsName:        "AWS",
-			DsDescription: "Datasage CLI description",
-			DsType:        "MySQL",
-			DsVersion:     "8",
-			DsKey:         "1258fghfg87fghf365",
-			Host:          "localhost",
-			Port:          "3306",
-			User:          "root",
-			Password:      "measroot",
-		})
+		//To Store Data from command line
+		create.DataDomain = datadomain
+		create.Name = name
+		create.Description = decription
+		create.Type = dstype
+		create.Version = version
+		create.Host = host
+		create.Port = port
+		create.User = user
+		create.Password = password
+		//Send to Server
+		response, err := datasource.AddDatasource(create)
 		if err != nil {
 			return err
 		}
-		fmt.Println("Response is -- ", response)
+		fmt.Println(response.GetMessage())
 		return nil
 	},
 }
 
 func init() {
-	rootCmd.AddCommand(createDatasourceCmd)
+	datasourceCmd.AddCommand(createDatasourceCmd)
+	createDatasourceCmd.Flags().StringVarP(&datadomain, "datadomain", "", "", "input your data domain")
+	createDatasourceCmd.Flags().StringVarP(&name, "name", "", "", "input your datasource name")
+	createDatasourceCmd.Flags().StringVarP(&decription, "description", "", "", "input your datasource description")
+	createDatasourceCmd.Flags().StringVarP(&dstype, "type", "", "", "input your datasource type")
+	createDatasourceCmd.Flags().StringVarP(&version, "version", "", "", "input your datasource version")
+	createDatasourceCmd.Flags().StringVarP(&host, "host", "", "", "input your host")
+	createDatasourceCmd.Flags().StringVarP(&port, "port", "", "", "input your port")
+	createDatasourceCmd.Flags().StringVarP(&user, "user", "", "", "input your user")
+	createDatasourceCmd.Flags().StringVarP(&password, "password", "", "", "input your password")
 }
