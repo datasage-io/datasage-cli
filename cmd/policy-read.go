@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 
 	p "github.com/datasage-io/datasage-cli/policy-ops"
-	pb "github.com/datasage-io/datasage-cli/proto/policy"
+	pb "github.com/datasage-io/datasage/src/proto/policy"
 	"github.com/spf13/cobra"
 )
 
@@ -22,8 +22,7 @@ var readPolicycmd = &cobra.Command{
 		if len(args) != 0 {
 			file = args[0]
 		}
-		fmt.Println("Args[0] -- ", file)
-		readFile, err := ioutil.ReadFile("/home/alok-pc/go/src/github.com/datasage-io/datasage-cli/sample.yaml")
+		readFile, err := ioutil.ReadFile(file)
 		if err != nil {
 			return err
 		}

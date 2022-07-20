@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	c "github.com/datasage-io/datasage-cli/class-ops"
-	pb "github.com/datasage-io/datasage-cli/proto/class"
+	pb "github.com/datasage-io/datasage/src/proto/class"
 	"github.com/spf13/cobra"
 )
 

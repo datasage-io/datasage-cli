@@ -4,7 +4,7 @@ import (
 	"context"
 	"os"
 
-	pb "github.com/datasage-io/datasage-cli/proto/tag"
+	pb "github.com/datasage-io/datasage/src/proto/tag"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 )

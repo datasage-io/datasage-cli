@@ -5,7 +5,7 @@ import (
 
 	"github.com/datasage-io/datasage-cli/datasource-ops"
 	"github.com/datasage-io/datasage-cli/output"
-	pb "github.com/datasage-io/datasage-cli/proto/datasource"
+	pb "github.com/datasage-io/datasage/src/proto/datasource"
 	"github.com/spf13/cobra"
 )
 
