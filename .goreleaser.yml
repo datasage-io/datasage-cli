@@ -1,0 +1,7 @@
+project_name: datasage-cli
+build:
+  binary: datasage-cli
+  goos:
+    - linux
+  goarch:
+    - amd64
