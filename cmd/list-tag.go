@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/datasage-io/datasage-cli/output"
-	pb "github.com/datasage-io/datasage-cli/proto/tag"
 	"github.com/datasage-io/datasage-cli/tag-ops"
+	pb "github.com/datasage-io/datasage/src/proto/tag"
 	"github.com/spf13/cobra"
 )
 
