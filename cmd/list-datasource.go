@@ -34,9 +34,9 @@ var listDatasourceCmd = &cobra.Command{
 			fmt.Println("Total Datasource is --- ", response.GetCount())
 			return nil
 		}
-		tbl := output.New("ID", "DATA DOMAIN", "NAME", "DESCRIPTION", "TYPE", "VERSION", "KEY", "CREATEDAT")
+		tbl := output.New("ID", "DATA DOMAIN", "NAME", "DESCRIPTION", "TYPE", "VERSION")
 		for _, ds := range response.GetListAllDatasources() {
-			tbl.AddRow(ds.Id, ds.Datadomain, ds.Name, ds.Description, ds.Type, ds.Version, ds.Key, ds.CreatedAt)
+			tbl.AddRow(ds.Id, ds.Datadomain, ds.Name, ds.Description, ds.Type, ds.Version)
 		}
 		tbl.Print()
 		return nil

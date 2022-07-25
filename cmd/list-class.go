@@ -38,9 +38,9 @@ var listClassCmd = &cobra.Command{
 			fmt.Println("Total Class is --- ", response.GetCount())
 			return nil
 		}
-		tbl := output.New("ID", "NAME", "DESCRIPTION", "TAG", "CREATEAT")
+		tbl := output.New("ID", "NAME", "DESCRIPTION")
 		for _, c := range response.GetClassResponse() {
-			tbl.AddRow(c.Id, c.Name, c.Description, c.Tag, c.CreatedAt)
+			tbl.AddRow(c.Id, c.Name, c.Description)
 		}
 		tbl.Print()
 		return nil

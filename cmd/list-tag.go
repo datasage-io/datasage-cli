@@ -38,9 +38,9 @@ var listTagCmd = &cobra.Command{
 			fmt.Println("Total Tag is --- ", response.GetCount())
 			return nil
 		}
-		tbl := output.New("ID", "NAME", "DESCRIPTION", "CLASS", "CREATEDAT")
+		tbl := output.New("ID", "NAME", "DESCRIPTION")
 		for _, t := range response.GetTagResponse() {
-			tbl.AddRow(t.Id, t.Name, t.Description, t.Class, t.CreatedAt)
+			tbl.AddRow(t.Id, t.Name, t.Description)
 		}
 		tbl.Print()
 		return nil

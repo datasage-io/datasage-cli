@@ -70,3 +70,15 @@ func DeleteDatasource(options pb.DeleteRequest) (pb.MessageResponse, error) {
 	}
 	return pb.MessageResponse{Message: response.GetMessage()}, nil
 }
+
+//GetDatasourceLogs - Datasource Log
+func GetDatasourceLogs(options pb.DatasourceLogRequest) (pb.DatasourceLogResponse, error) {
+	//Connect grpc datasource Client
+	client, err := connectClient()
+	if err != nil {
+		return pb.DatasourceLogResponse{}, err
+	}
+	//Get Datasource Logs
+	response, err := client.LogDatasource(context.Background(), &options)
+	return pb.DatasourceLogResponse{DatasourceLog: response.GetDatasourceLog()}, nil
+}
