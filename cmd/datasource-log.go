@@ -24,7 +24,7 @@ var export struct {
 
 //log represents the datasource log
 var logDatasourceCmd = &cobra.Command{
-	Use:   "datasource",
+	Use:   "logs",
 	Short: "Log Datasource Commands For Display Log for Datasage",
 	Long:  ` Log Datasource Commands For Display Log for Datasage `,
 	RunE: func(cmd *cobra.Command, args []string) error {
@@ -87,7 +87,7 @@ var logDatasourceCmd = &cobra.Command{
 }
 
 func init() {
-	logCmd.AddCommand(logDatasourceCmd)
+	rootCmd.AddCommand(logDatasourceCmd)
 	logDatasourceCmd.Flags().StringVarP(&log.Datasource, "datasource", "", "", "List Logs based on Datasource")
 	logDatasourceCmd.Flags().StringVarP(&log.Database, "database", "", "", "List Logs based on Database")
 	logDatasourceCmd.Flags().StringVarP(&log.Table, "table", "", "", "List Logs based on Table")
