@@ -32,7 +32,13 @@ var createDatasourceCmd = &cobra.Command{
 		if err != nil {
 			return err
 		}
-		fmt.Println(response.GetMessage())
+		if response.DataSourceAddFailed == "Error" {
+			fmt.Println(response.GetDataSourceAddFailed())
+		} else if response.DataSourceInitialScanFailed == "Failed to Scan Datasource " {
+			fmt.Println(response.GetDataSourceInitialScanFailed())
+		} else {
+			fmt.Println(response.GetDataSourceAddedSucessful())
+		}
 		return nil
 	},
 }

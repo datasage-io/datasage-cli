@@ -27,18 +27,24 @@ func connectClient() (pb.DatasourceClient, error) {
 }
 
 //AddDatasource - To Add New datasource
-func AddDatasource(options pb.AddRequest) (pb.MessageResponse, error) {
+func AddDatasource(options pb.AddRequest) (pb.StatusResponse, error) {
 	//Connect grpc datasource Client
 	client, err := connectClient()
 	if err != nil {
-		return pb.MessageResponse{Message: ""}, err
+		return pb.StatusResponse{}, err
 	}
 	//Add Datasource
 	response, err := client.AddDatasource(context.Background(), &options)
 	if err != nil {
-		return pb.MessageResponse{Message: ""}, err
+		return pb.StatusResponse{DataSourceAddFailed: "Adding Datasource Failed"}, err
 	}
-	return pb.MessageResponse{Message: response.GetMessage()}, nil
+	if response.DataSourceAddFailed == "Error" {
+		return pb.StatusResponse{DataSourceAddFailed: "Adding Datasource Failed"}, err
+	} else if response.DataSourceInitialScanFailed == "Failed to Scan Datasource " {
+		return pb.StatusResponse{DataSourceInitialScanFailed: "Failed to Scan Datasource"}, err
+	} else {
+		return pb.StatusResponse{DataSourceAddedSucessful: response.DataSourceAddedSucessful}, nil
+	}
 }
 
 //ListDatasource - List All Datasource

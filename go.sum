@@ -13,8 +13,8 @@ github.com/cncf/xds/go v0.0.0-20211001041855-01bcc9b48dfe/go.mod h1:eXthEFrGJvWH
 github.com/cncf/xds/go v0.0.0-20211011173535-cb28da3451f1/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
 github.com/coreos/go-systemd/v22 v22.3.3-0.20220203105225-a9a7ef127534/go.mod h1:Y58oyj3AT4RCenI/lSvhwexgC+NSVTIJ3seZv2GcEnc=
 github.com/cpuguy83/go-md2man/v2 v2.0.2/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
-github.com/datasage-io/datasage v0.0.0-20220721084353-9ce94d5509dc h1:i5HdMdGrW8LRwJIeQSTngw5Yk7LfxZg5ix0KOrD/GzM=
-github.com/datasage-io/datasage v0.0.0-20220721084353-9ce94d5509dc/go.mod h1:hwsWpsi6FebKT44lrk8lrvRXZw8IfhVqGl+ynSgubYg=
+github.com/datasage-io/datasage v0.0.0-20220728044316-488b626f9823 h1:aw6XAu8xvEF7X3taD+t/YAtmASWNd4dWjI6wnSbiX9I=
+github.com/datasage-io/datasage v0.0.0-20220728044316-488b626f9823/go.mod h1:NOj5E5+FabyCprW7npipIWwtRr61Shhf9nkFr0ysuuo=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/envoyproxy/go-control-plane v0.9.0/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
 github.com/envoyproxy/go-control-plane v0.9.1-0.20191026205805-5f8ba28d4473/go.mod h1:YTl/9mNaCwkRvm6d1a2C3ymFceY/DCBVvsKhRF0iEA4=
