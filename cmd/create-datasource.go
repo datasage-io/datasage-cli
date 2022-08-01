@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"fmt"
+	"sync"
+	"time"
 
 	"github.com/datasage-io/datasage-cli/datasource-ops"
 	pb "github.com/datasage-io/datasage/src/proto/datasource"
@@ -10,6 +12,8 @@ import (
 
 var create pb.AddRequest
 var datadomain, name, decription, dstype, version, host, port, user, password string
+
+var wg sync.WaitGroup
 
 //datasource represents the datasource of datasage
 var createDatasourceCmd = &cobra.Command{
@@ -28,17 +32,31 @@ var createDatasourceCmd = &cobra.Command{
 		create.User = user
 		create.Password = password
 		//Send to Server
-		response, err := datasource.AddDatasource(create)
-		if err != nil {
-			return err
-		}
-		if response.DataSourceAddFailed == "Error" {
-			fmt.Println(response.GetDataSourceAddFailed())
-		} else if response.DataSourceInitialScanFailed == "Failed to Scan Datasource " {
-			fmt.Println(response.GetDataSourceInitialScanFailed())
-		} else {
-			fmt.Println(response.GetDataSourceAddedSucessful())
-		}
+		wg.Add(2)
+		//Channel to pass message
+		ch := make(chan int)
+		go func() {
+			response, err := datasource.AddDatasource(create)
+			if err != nil {
+				panic(err)
+			}
+			time.Sleep(10 * time.Second)
+			fmt.Println(response.GetMessage())
+			ch <- 1
+			wg.Done()
+		}()
+		//Scan Datasource
+		go func() {
+			<-ch
+			scanresult, err := datasource.ScanDatasource(create)
+			if err != nil {
+				panic(err)
+			}
+			time.Sleep(10 * time.Second)
+			fmt.Println(scanresult.GetMessage())
+			wg.Done()
+		}()
+		wg.Wait()
 		return nil
 	},
 }

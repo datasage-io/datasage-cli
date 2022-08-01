@@ -2,7 +2,6 @@ package class
 
 import (
 	"context"
-	"fmt"
 	"os"
 
 	pb "github.com/datasage-io/datasage/src/proto/class"
@@ -34,8 +33,6 @@ func AddClass(options pb.CreateRequest) (*pb.MessageResponse, error) {
 	if err != nil {
 		return &pb.MessageResponse{Message: ""}, err
 	}
-	//Print Connection
-	fmt.Println("Connection Established Succesfully")
 	//Add Class
 	response, err := client.AddClass(context.Background(), &options)
 	if err != nil {
@@ -51,8 +48,6 @@ func ListClass(options pb.ListRequest) (*pb.ListResponse, error) {
 	if err != nil {
 		return &pb.ListResponse{ClassResponse: nil, Count: 0}, err
 	}
-	//Print Connection
-	fmt.Println("Connection Established Succesfully")
 	//List Class
 	response, err := client.ListClass(context.Background(), &options)
 	if err != nil {
@@ -68,8 +63,6 @@ func DeleteClass(options pb.DeleteRequest) (*pb.MessageResponse, error) {
 	if err != nil {
 		return &pb.MessageResponse{Message: ""}, err
 	}
-	//Print Connection
-	fmt.Println("Connection Established Succesfully")
 	//Delete Class
 	response, err := client.DeleteClass(context.Background(), &options)
 	if err != nil {

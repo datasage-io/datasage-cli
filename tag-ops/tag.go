@@ -2,7 +2,6 @@ package tag
 
 import (
 	"context"
-	"fmt"
 	"os"
 
 	pb "github.com/datasage-io/datasage/src/proto/tag"
@@ -34,8 +33,6 @@ func AddTag(options pb.AddRequest) (pb.MessageResponse, error) {
 	if err != nil {
 		return pb.MessageResponse{Message: ""}, err
 	}
-	//Print Connection
-	fmt.Println("Connection Established Succesfully")
 	//Add Tag
 	response, err := client.AddTag(context.Background(), &options)
 	if err != nil {
@@ -51,8 +48,6 @@ func ListTag(options pb.ListRequest) (pb.ListResponse, error) {
 	if err != nil {
 		return pb.ListResponse{TagResponse: nil, Count: 0}, err
 	}
-	//Print Connection
-	fmt.Println("Connection Established Succesfully")
 	//List Tag
 	response, err := client.ListTag(context.Background(), &options)
 	if err != nil {
@@ -68,8 +63,6 @@ func DeleteTag(options pb.DeleteRequest) (pb.MessageResponse, error) {
 	if err != nil {
 		return pb.MessageResponse{Message: ""}, err
 	}
-	//Print Connection
-	fmt.Println("Connection Established Succesfully")
 	//Delete Tag
 	response, err := client.DeleteTag(context.Background(), &options)
 	if err != nil {

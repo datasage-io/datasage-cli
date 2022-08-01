@@ -2,7 +2,6 @@ package datasource
 
 import (
 	"context"
-	"fmt"
 	"os"
 
 	pb "github.com/datasage-io/datasage/src/proto/datasource"
@@ -28,26 +27,18 @@ func connectClient() (pb.DatasourceClient, error) {
 }
 
 //AddDatasource - To Add New datasource
-func AddDatasource(options pb.AddRequest) (pb.StatusResponse, error) {
+func AddDatasource(options pb.AddRequest) (pb.MessageResponse, error) {
 	//Connect grpc datasource Client
 	client, err := connectClient()
 	if err != nil {
-		return pb.StatusResponse{}, err
+		return pb.MessageResponse{}, err
 	}
-	//Print Connection
-	fmt.Println("Connection Established Succesfully")
 	//Add Datasource
 	response, err := client.AddDatasource(context.Background(), &options)
 	if err != nil {
-		return pb.StatusResponse{DataSourceAddFailed: "Adding Datasource Failed"}, err
+		return pb.MessageResponse{Message: ""}, err
 	}
-	if response.DataSourceAddFailed == "Error" {
-		return pb.StatusResponse{DataSourceAddFailed: "Adding Datasource Failed"}, err
-	} else if response.DataSourceInitialScanFailed == "Failed to Scan Datasource " {
-		return pb.StatusResponse{DataSourceInitialScanFailed: "Failed to Scan Datasource"}, err
-	} else {
-		return pb.StatusResponse{DataSourceAddedSucessful: response.DataSourceAddedSucessful}, nil
-	}
+	return pb.MessageResponse{Message: response.GetMessage()}, err
 }
 
 //ListDatasource - List All Datasource
@@ -57,8 +48,6 @@ func ListDatasource(options pb.ListRequest) (pb.ListResponse, error) {
 	if err != nil {
 		return pb.ListResponse{ListAllDatasources: nil, Count: 0}, err
 	}
-	//Print Connection
-	fmt.Println("Connection Established Succesfully")
 	//List Datasource
 	response, err := client.ListDatasource(context.Background(), &options)
 	if err != nil {
@@ -74,8 +63,6 @@ func DeleteDatasource(options pb.DeleteRequest) (pb.MessageResponse, error) {
 	if err != nil {
 		return pb.MessageResponse{Message: ""}, err
 	}
-	//Print Connection
-	fmt.Println("Connection Established Succesfully")
 	//Delete Datasource
 	response, err := client.DeleteDatasource(context.Background(), &options)
 	if err != nil {
@@ -91,9 +78,22 @@ func GetDatasourceLogs(options pb.DatasourceLogRequest) (pb.DatasourceLogRespons
 	if err != nil {
 		return pb.DatasourceLogResponse{}, err
 	}
-	//Print Connection
-	fmt.Println("Connection Established Succesfully")
 	//Get Datasource Logs
 	response, err := client.LogDatasource(context.Background(), &options)
 	return pb.DatasourceLogResponse{DatasourceLog: response.GetDatasourceLog()}, nil
+}
+
+//ScanDatasource - To Scan New datasource
+func ScanDatasource(options pb.AddRequest) (pb.MessageResponse, error) {
+	//Connect grpc datasource Client
+	client, err := connectClient()
+	if err != nil {
+		return pb.MessageResponse{}, err
+	}
+	//Scan Datasource
+	response, err := client.Scan(context.Background(), &options)
+	if err != nil {
+		return pb.MessageResponse{Message: ""}, err
+	}
+	return pb.MessageResponse{Message: response.GetMessage()}, err
 }
