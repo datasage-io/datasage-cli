@@ -27,18 +27,18 @@ func connectClient() (pb.DatasourceClient, error) {
 }
 
 //AddDatasource - To Add New datasource
-func AddDatasource(options pb.AddRequest) (pb.MessageResponse, error) {
+func AddDatasource(options pb.AddRequest) (pb.AddResponse, error) {
 	//Connect grpc datasource Client
 	client, err := connectClient()
 	if err != nil {
-		return pb.MessageResponse{}, err
+		return pb.AddResponse{}, err
 	}
 	//Add Datasource
 	response, err := client.AddDatasource(context.Background(), &options)
 	if err != nil {
-		return pb.MessageResponse{Message: ""}, err
+		return pb.AddResponse{StatusCode: response.GetStatusCode(), Message: response.GetMessage()}, err
 	}
-	return pb.MessageResponse{Message: response.GetMessage()}, err
+	return pb.AddResponse{StatusCode: response.GetStatusCode(), Message: response.GetMessage()}, err
 }
 
 //ListDatasource - List All Datasource
@@ -57,43 +57,58 @@ func ListDatasource(options pb.ListRequest) (pb.ListResponse, error) {
 }
 
 //DeleteDatasource - Delete a Datasource
-func DeleteDatasource(options pb.DeleteRequest) (pb.MessageResponse, error) {
+func DeleteDatasource(options pb.DeleteRequest) (pb.DeleteResponse, error) {
 	//Connect grpc datasource Client
 	client, err := connectClient()
 	if err != nil {
-		return pb.MessageResponse{Message: ""}, err
+		return pb.DeleteResponse{Message: ""}, err
 	}
 	//Delete Datasource
 	response, err := client.DeleteDatasource(context.Background(), &options)
 	if err != nil {
-		return pb.MessageResponse{Message: ""}, err
+		return pb.DeleteResponse{StatusCode: response.GetStatusCode(), Message: response.GetMessage()}, err
 	}
-	return pb.MessageResponse{Message: response.GetMessage()}, nil
+	return pb.DeleteResponse{StatusCode: response.GetStatusCode(), Message: response.GetMessage()}, nil
 }
 
 //GetDatasourceLogs - Datasource Log
-func GetDatasourceLogs(options pb.DatasourceLogRequest) (pb.DatasourceLogResponse, error) {
+func GetDatasourceLogs(options pb.LogRequest) (pb.LogResponse, error) {
 	//Connect grpc datasource Client
 	client, err := connectClient()
 	if err != nil {
-		return pb.DatasourceLogResponse{}, err
+		return pb.LogResponse{}, err
 	}
 	//Get Datasource Logs
 	response, err := client.LogDatasource(context.Background(), &options)
-	return pb.DatasourceLogResponse{DatasourceLog: response.GetDatasourceLog()}, nil
+	return pb.LogResponse{DatasourceLog: response.GetDatasourceLog()}, nil
 }
 
 //ScanDatasource - To Scan New datasource
-func ScanDatasource(options pb.AddRequest) (pb.MessageResponse, error) {
+func ScanDatasource(options pb.ScanRequest) (pb.ScanResponse, error) {
 	//Connect grpc datasource Client
 	client, err := connectClient()
 	if err != nil {
-		return pb.MessageResponse{}, err
+		return pb.ScanResponse{}, err
 	}
 	//Scan Datasource
 	response, err := client.Scan(context.Background(), &options)
 	if err != nil {
-		return pb.MessageResponse{Message: ""}, err
+		return pb.ScanResponse{StatusCode: response.GetStatusCode(), Message: response.GetMessage()}, err
 	}
-	return pb.MessageResponse{Message: response.GetMessage()}, err
+	return pb.ScanResponse{StatusCode: response.GetStatusCode(), Message: response.GetMessage()}, err
+}
+
+//ApplyRecommendedPolicy - Apply Recommended Policy
+func ApplyPolicy(options pb.ApplyPolicyRequest) (pb.ApplyPolicyResponse, error) {
+	//Connect grpc datasource Client
+	client, err := connectClient()
+	if err != nil {
+		return pb.ApplyPolicyResponse{}, err
+	}
+	//Scan Datasource
+	response, err := client.ApplyPolicy(context.Background(), &options)
+	if err != nil {
+		return pb.ApplyPolicyResponse{StatusCode: response.GetStatusCode(), Message: response.GetMessage()}, err
+	}
+	return pb.ApplyPolicyResponse{StatusCode: response.GetStatusCode(), Message: response.GetMessage()}, err
 }

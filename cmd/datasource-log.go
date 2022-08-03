@@ -14,7 +14,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var log pb.DatasourceLogRequest
+var log pb.LogRequest
 
 //Export
 var export struct {
