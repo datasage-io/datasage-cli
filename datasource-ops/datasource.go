@@ -5,6 +5,7 @@ import (
 	"os"
 
 	pb "github.com/datasage-io/datasage/src/proto/datasource"
+	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/rs/zerolog/log"
 	"google.golang.org/grpc"
 )
@@ -96,6 +97,36 @@ func ScanDatasource(options pb.ScanRequest) (pb.ScanResponse, error) {
 		return pb.ScanResponse{StatusCode: response.GetStatusCode(), Message: response.GetMessage()}, err
 	}
 	return pb.ScanResponse{StatusCode: response.GetStatusCode(), Message: response.GetMessage()}, err
+}
+
+//GetStatus - Get Status of Datasource
+func GetStatus(options pb.StatusRequest) (pb.StatusResponse, error) {
+	//Connect grpc datasource Client
+	client, err := connectClient()
+	if err != nil {
+		return pb.StatusResponse{}, err
+	}
+	//Get Status Of Datasource
+	response, err := client.GetStatus(context.Background(), &options)
+	if err != nil {
+		return pb.StatusResponse{StatusCode: response.GetStatusCode(), DsStatus: response.GetDsStatus()}, err
+	}
+	return pb.StatusResponse{StatusCode: response.GetStatusCode(), DsStatus: response.GetDsStatus()}, nil
+}
+
+//GerRecommendedPolicies - Get Recommended policies for Datasource
+func GetRecommendedPolicies(options empty.Empty) (pb.RecommendedpolicyResponse, error) {
+	//Connect grpc datasource Client
+	client, err := connectClient()
+	if err != nil {
+		return pb.RecommendedpolicyResponse{}, err
+	}
+	//GetRecommendedPolicies
+	policies, err := client.GetRecommendedPolicy(context.Background(), &options)
+	if err != nil {
+		return pb.RecommendedpolicyResponse{StatusCode: policies.GetStatusCode()}, err
+	}
+	return pb.RecommendedpolicyResponse{StatusCode: policies.GetStatusCode(), PolicyName: policies.GetPolicyName()}, nil
 }
 
 //ApplyRecommendedPolicy - Apply Recommended Policy
