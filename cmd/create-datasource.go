@@ -36,75 +36,119 @@ var createDatasourceCmd = &cobra.Command{
 		create.Port = port
 		create.User = user
 		create.Password = password
-		//Operation Start From Here
-		response, err := datasource.AddDatasource(create)
+		//  ==== Start ====  //
+		//Check Status
+		dsStatus, err := datasource.GetStatus(pb.StatusRequest{DsName: create.Name})
 		if err != nil {
-			fmt.Println(constants.DataSourceAddFailed)
+			fmt.Println(constants.FailedWhileFetchingStatus)
 			return nil
 		}
-		if response.GetStatusCode() == codes.OK.String() {
-			fmt.Println(constants.DataSourceAddedSucessful)
-			fmt.Println(constants.DataSourceScanInprogress)
-			scanResult, err := datasource.ScanDatasource(pb.ScanRequest{Name: create.Name})
+		if dsStatus.GetDsStatus() == "" {
+			//Add Datasource
+			response, err := addDatasource()
 			if err != nil {
-				fmt.Println(constants.DataSourceInitialScanFailed)
+				fmt.Println(response)
 				return nil
 			}
-			if scanResult.GetStatusCode() == codes.OK.String() {
-				fmt.Println(constants.DataSourceInitialScanCompleted)
+			fmt.Println(response)
+			fmt.Println(constants.DataSourceScanInprogress)
+			//Scan Datasource
+			scanResult, err := scanDatasource(create.Name)
+			if err != nil {
+				fmt.Println(scanResult)
+				return nil
+			}
+			fmt.Println(constants.DataSourceInitialScanCompleted)
+			fmt.Println(constants.DataSourcePeriodicScanProcess)
+			fmt.Println(constants.DataSourcePeriodicScanWaiting)
+			//Recommended Policy
+			Recommendedpolicy(create.Name)
+		} else {
+			switch dsStatus.GetDsStatus() {
+			case constants.DataSourceScanInprogress:
+				//Scan Datasource
+				scanResult, err := scanDatasource(create.Name)
+				if err != nil {
+					fmt.Println(scanResult)
+					return nil
+				}
+				fmt.Println(scanResult)
 				fmt.Println(constants.DataSourcePeriodicScanProcess)
 				fmt.Println(constants.DataSourcePeriodicScanWaiting)
-
-				//Periodically Check
-				for i := 0; i < viper.GetInt("datasource.numberOfIteration"); i++ {
-					//Waiting for status
-					time.Sleep(time.Duration(viper.GetInt64("datasource.sleepTime")) * time.Second)
-					dsStatus, err := datasource.GetStatus(pb.StatusRequest{DsName: create.Name})
-					if err != nil {
-						fmt.Println(constants.DataSourcePeriodicScanFailed)
-					} else if dsStatus.GetStatusCode() == codes.OK.String() {
-						fmt.Println(constants.DataSourcePeriodicScanCompleted)
-						fmt.Println("There are Serveral Recommended Policy for Datasource ")
-						recommendedPolicies, err := datasource.GetRecommendedPolicies(empty.Empty{})
-						if err != nil {
-							fmt.Println(constants.DefaultPoliciesIdentificationFailed)
-						}
-						fmt.Println(constants.DefaultPoliciesIdentified)
-						for i, policy := range recommendedPolicies.GetPolicyName() {
-							fmt.Println(i+1, ".", policy)
-						}
-						fmt.Println("Do you want to Apply the policies? Yes/No")
-						var choice string
-						fmt.Scanf("%s", &choice)
-						if strings.ToLower(choice) == "yes" || strings.ToLower(choice) == "y" {
-							//Get Policy Id to apply recommended policy
-							var policyIds []int64
-							fmt.Println("Enter the id of Recommended policy")
-							reader := bufio.NewReader(os.Stdin)
-							input, _ := reader.ReadString('\n')
-							for _, val := range strings.Fields(input) {
-								id, _ := strconv.ParseInt(val, 10, 64)
-								policyIds = append(policyIds, id)
-							}
-							fmt.Println(constants.ApplyrecommendingPolicy)
-							policyAppliedResult, err := datasource.ApplyPolicy(pb.ApplyPolicyRequest{Id: policyIds, DsName: create.Name})
-							if err != nil {
-								fmt.Printf("Status Code - %v :: Error Message - %v", policyAppliedResult.GetStatusCode(), policyAppliedResult.GetMessage())
-							}
-							if policyAppliedResult.GetStatusCode() == codes.OK.String() {
-								fmt.Println("Policy has been applied")
-								break
-							}
-						} else {
-							fmt.Println("Process Completed")
-							break
-						}
-					}
-				}
+				//Recommended Policy
+				Recommendedpolicy(create.Name)
+			case constants.DataSourcePeriodicScanProcess, constants.DataSourcePeriodicScanWaiting:
+				//Recommended Policy
+				Recommendedpolicy(create.Name)
 			}
 		}
+		//  ====  End  ====  //
 		return nil
 	},
+}
+
+//Add Datsource
+func addDatasource() (string, error) {
+	response, err := datasource.AddDatasource(create)
+	if err != nil {
+		return constants.DataSourceAddFailed, err
+	}
+	return response.GetMessage(), nil
+}
+
+//Scan Datasource
+func scanDatasource(dsName string) (string, error) {
+	scanResult, err := datasource.ScanDatasource(pb.ScanRequest{Name: dsName})
+	if err != nil {
+		return scanResult.GetMessage(), err
+	}
+	return scanResult.GetMessage(), nil
+}
+
+//Recommended Policy
+func Recommendedpolicy(dsName string) {
+	//Periodically Check
+	for i := 0; i < viper.GetInt("datasource.numberOfIteration"); i++ {
+		//Waiting for status
+		time.Sleep(time.Duration(viper.GetInt64("datasource.sleepTime")) * time.Second)
+
+		fmt.Println(constants.DataSourcePeriodicScanCompleted)
+		fmt.Println("There are Serveral Recommended Policy for Datasource ")
+		recommendedPolicies, err := datasource.GetRecommendedPolicies(empty.Empty{})
+		if err != nil {
+			fmt.Println(constants.DefaultPoliciesIdentificationFailed)
+		}
+		fmt.Println(constants.DefaultPoliciesIdentified)
+		for i, policy := range recommendedPolicies.GetPolicyName() {
+			fmt.Println(i+1, ".", policy)
+		}
+		fmt.Println("Do you want to Apply the policies? Yes/No")
+		var choice string
+		fmt.Scanf("%s", &choice)
+		if strings.ToLower(choice) == "yes" || strings.ToLower(choice) == "y" {
+			//Get Policy Id to apply recommended policy
+			var policyIds []int64
+			fmt.Println("Enter the id of Recommended policy")
+			reader := bufio.NewReader(os.Stdin)
+			input, _ := reader.ReadString('\n')
+			for _, val := range strings.Fields(input) {
+				id, _ := strconv.ParseInt(val, 10, 64)
+				policyIds = append(policyIds, id)
+			}
+			fmt.Println(constants.ApplyrecommendingPolicy)
+			policyAppliedResult, err := datasource.ApplyPolicy(pb.ApplyPolicyRequest{Id: policyIds, DsName: create.Name})
+			if err != nil {
+				fmt.Printf("Status Code - %v :: Error Message - %v", policyAppliedResult.GetStatusCode(), policyAppliedResult.GetMessage())
+			}
+			if policyAppliedResult.GetStatusCode() == codes.OK.String() {
+				fmt.Println("Policy has been applied")
+				break
+			}
+		} else {
+			fmt.Println("Process Completed")
+			break
+		}
+	}
 }
 
 func init() {
