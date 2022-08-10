@@ -17,4 +17,5 @@ const (
 	PolicyEnforcementCompleted          = "Policy Enforcement Completed"
 	DatasourceGetStatusFailed           = "Datasource Status Failed"
 	ApplyrecommendingPolicy             = "Applying Recommended policies"
+	FailedWhileFetchingStatus           = "Failed while fetching datasource status"
 )
