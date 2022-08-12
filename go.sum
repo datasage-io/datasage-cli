@@ -54,8 +54,8 @@ github.com/cncf/xds/go v0.0.0-20211001041855-01bcc9b48dfe/go.mod h1:eXthEFrGJvWH
 github.com/cncf/xds/go v0.0.0-20211011173535-cb28da3451f1/go.mod h1:eXthEFrGJvWHgFFCl3hGmgk+/aYT6PnTQLykKQRLhEs=
 github.com/coreos/go-systemd/v22 v22.3.3-0.20220203105225-a9a7ef127534/go.mod h1:Y58oyj3AT4RCenI/lSvhwexgC+NSVTIJ3seZv2GcEnc=
 github.com/cpuguy83/go-md2man/v2 v2.0.2/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
-github.com/datasage-io/datasage v0.0.0-20220804090247-f44eaffb1c82 h1:2AExRKGhtUeStqbKH7CefxUGurbQ+amL3SswWXIkmF8=
-github.com/datasage-io/datasage v0.0.0-20220804090247-f44eaffb1c82/go.mod h1:YWlaYTIMFI9T0qFE3vNGQ4zdtKxLLgzRf4egUp/ljdY=
+github.com/datasage-io/datasage v0.0.0-20220812052834-70fdddcb52b7 h1:ahx9lL1HPh36tpDjpIhxv40LO9cQ+2cD0/yBO+5lRfU=
+github.com/datasage-io/datasage v0.0.0-20220812052834-70fdddcb52b7/go.mod h1:0yk8TLar3Z8gQJ9W4L6M7Gqny/ZA4M/MF8rK8gRwLB8=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=

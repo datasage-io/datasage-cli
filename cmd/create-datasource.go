@@ -11,7 +11,6 @@ import (
 	"github.com/datasage-io/datasage-cli/datasource-ops"
 	"github.com/datasage-io/datasage-cli/utils/constants"
 	pb "github.com/datasage-io/datasage/src/proto/datasource"
-	"github.com/golang/protobuf/ptypes/empty"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc/codes"
@@ -114,13 +113,13 @@ func Recommendedpolicy(dsName string) {
 
 		fmt.Println(constants.DataSourcePeriodicScanCompleted)
 		fmt.Println("There are Serveral Recommended Policy for Datasource ")
-		recommendedPolicies, err := datasource.GetRecommendedPolicies(empty.Empty{})
+		recommendedPolicies, err := datasource.GetRecommendedPolicies(pb.RecommendedpolicyRequest{DsName: create.Name})
 		if err != nil {
 			fmt.Println(constants.DefaultPoliciesIdentificationFailed)
 		}
 		fmt.Println(constants.DefaultPoliciesIdentified)
-		for i, policy := range recommendedPolicies.GetPolicyName() {
-			fmt.Println(i+1, ".", policy)
+		for _, policy := range recommendedPolicies.GetPolicy() {
+			fmt.Println(policy.PolicyId, ".", policy.PolicyName)
 		}
 		fmt.Println("Do you want to Apply the policies? Yes/No")
 		var choice string

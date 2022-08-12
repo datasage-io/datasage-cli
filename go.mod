@@ -3,7 +3,7 @@ module github.com/datasage-io/datasage-cli
 go 1.18
 
 require (
-	github.com/datasage-io/datasage v0.0.0-20220804090247-f44eaffb1c82
+	github.com/datasage-io/datasage v0.0.0-20220812052834-70fdddcb52b7
 	github.com/fatih/color v1.13.0
 	github.com/golang/protobuf v1.5.2
 	github.com/rs/zerolog v1.27.0
