@@ -1,10 +1,7 @@
 package cmd
 
 import (
-	"bufio"
 	"fmt"
-	"os"
-	"strconv"
 	"strings"
 	"time"
 
@@ -121,18 +118,23 @@ func Recommendedpolicy(dsName string) {
 		for _, policy := range recommendedPolicies.GetPolicy() {
 			fmt.Println(policy.PolicyId, ".", policy.PolicyName)
 		}
-		fmt.Println("Do you want to Apply the policies? Yes/No")
+		fmt.Print("Do you want to Apply the Recommended policies? Yes/No :: ")
 		var choice string
 		fmt.Scanf("%s", &choice)
 		if strings.ToLower(choice) == "yes" || strings.ToLower(choice) == "y" {
 			//Get Policy Id to apply recommended policy
 			var policyIds []int64
-			fmt.Println("Enter the id of Recommended policy")
-			reader := bufio.NewReader(os.Stdin)
-			input, _ := reader.ReadString('\n')
-			for _, val := range strings.Fields(input) {
-				id, _ := strconv.ParseInt(val, 10, 64)
+			for {
+				var id int64
+				fmt.Print("Enter the id of Recommended policy :: ")
+				fmt.Scanf("%d", &id)
 				policyIds = append(policyIds, id)
+				fmt.Print("Do you want to apply one more Recommended Policy - Yes/No :: ")
+				var more string
+				fmt.Scanf("%s", &more)
+				if strings.ToLower(more) == "no" || strings.ToLower(more) == "n" {
+					break
+				}
 			}
 			fmt.Println(constants.ApplyrecommendingPolicy)
 			policyAppliedResult, err := datasource.ApplyPolicy(pb.ApplyPolicyRequest{Id: policyIds, DsName: create.Name})
