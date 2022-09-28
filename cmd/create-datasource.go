@@ -16,7 +16,7 @@ import (
 var create pb.AddRequest
 var datadomain, name, decription, dstype, version, host, port, user, password string
 
-//datasource represents the datasource of datasage
+// datasource represents the datasource of datasage
 var createDatasourceCmd = &cobra.Command{
 	Use:   "add",
 	Short: "Datasource Commands For Manipulating Datasource in Datasage",
@@ -83,7 +83,7 @@ var createDatasourceCmd = &cobra.Command{
 	},
 }
 
-//Add Datsource
+// Add Datsource
 func addDatasource() (string, error) {
 	response, err := datasource.AddDatasource(create)
 	if err != nil {
@@ -92,7 +92,7 @@ func addDatasource() (string, error) {
 	return response.GetMessage(), nil
 }
 
-//Scan Datasource
+// Scan Datasource
 func scanDatasource(dsName string) (string, error) {
 	scanResult, err := datasource.ScanDatasource(pb.ScanRequest{Name: dsName})
 	if err != nil {
@@ -101,7 +101,7 @@ func scanDatasource(dsName string) (string, error) {
 	return scanResult.GetMessage(), nil
 }
 
-//Recommended Policy
+// Recommended Policy
 func Recommendedpolicy(dsName string) {
 	//Periodically Check
 	for i := 0; i < viper.GetInt("datasource.numberOfIteration"); i++ {
@@ -120,18 +120,18 @@ func Recommendedpolicy(dsName string) {
 		}
 		fmt.Print("Do you want to Apply the Recommended policies? Yes/No :: ")
 		var choice string
-		fmt.Scanf("%s", &choice)
+		fmt.Scanln(&choice)
 		if strings.ToLower(choice) == "yes" || strings.ToLower(choice) == "y" {
 			//Get Policy Id to apply recommended policy
 			var policyIds []int64
 			for {
 				var id int64
 				fmt.Print("Enter the id of Recommended policy :: ")
-				fmt.Scanf("%d", &id)
+				fmt.Scanln(&id)
 				policyIds = append(policyIds, id)
 				fmt.Print("Do you want to apply one more Recommended Policy - Yes/No :: ")
 				var more string
-				fmt.Scanf("%s", &more)
+				fmt.Scanln(&more)
 				if strings.ToLower(more) == "no" || strings.ToLower(more) == "n" {
 					break
 				}
