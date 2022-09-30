@@ -3,7 +3,7 @@ package cmd
 import (
 	"fmt"
 	"io/ioutil"
-	"path/filepath"
+	"os"
 
 	p "github.com/datasage-io/datasage-cli/policy-ops"
 	pb "github.com/datasage-io/datasage/src/proto/policy"
@@ -22,9 +22,13 @@ var readPolicycmd = &cobra.Command{
 	Short: "Policy Commands For Manipulating Policy in Datasage",
 	Long:  ` Policy Commands to do Manipulation on Policy in Datasage`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		//To Check file extension
-		ext := filepath.Ext(fileURL)
-		if ext == ".yaml" {
+		//To Check file Status
+		fileStatus, err := os.Stat(fileURL)
+		if err != nil {
+			fmt.Println("File Doesn't Exists")
+		} else if fileStatus.Size() == 0 {
+			fmt.Println("File is empty")
+		} else {
 			//Read File Path
 			data, err := ioutil.ReadFile(fileURL)
 			if err != nil {
@@ -38,8 +42,6 @@ var readPolicycmd = &cobra.Command{
 			//Send to Server
 			response, err := p.ReadPolicy(policy)
 			fmt.Println(response.GetMessage())
-		} else {
-			fmt.Println("Policy file should be in .yaml extension")
 		}
 
 		return nil
@@ -48,5 +50,5 @@ var readPolicycmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(readPolicycmd)
-	readPolicycmd.Flags().StringVarP(&fileURL, "f", "f", "", "Read Policy YAML File")
+	readPolicycmd.Flags().StringVarP(&fileURL, "f", "f", "", "Upload File")
 }
