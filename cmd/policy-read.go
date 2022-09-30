@@ -50,5 +50,5 @@ var readPolicycmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(readPolicycmd)
-	readPolicycmd.Flags().StringVarP(&fileURL, "f", "f", "", "Upload File")
+	readPolicycmd.Flags().StringVarP(&fileURL, "f", "f", "", "Apply Policy")
 }
